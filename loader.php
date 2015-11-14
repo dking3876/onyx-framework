@@ -1,18 +1,22 @@
 <?php
+/** 
+ * Onyx Constant definitions
+ * 
+ * Sets all the needed constants for the Onyx Frameword to operate.
+ * You can alternate between Debug Mode.  All Onyx settings are loaded and stored in 
+ * the onyx/settings folder
+ * 
+ * @author Deryk W. King <dking3876@msn.com>
+ * @version 0.1 DEV
+ * 
+ * 
+ */ 
 define("BASE_PATH", dirname(realpath(__FILE__)).'/');
 
 define("CORE_PATH", BASE_PATH .'onyx/');
 
 define("ADMIN_PATH", BASE_PATH .'admin/');
 
-define("ASSETS_PATH", BASE_PATH .'assets/');
-
-define("PLUGINS_PATH", BASE_PATH .'plugins/');
-
 define("DEBUG_MODE", TRUE);
 
-if(!file_exists(BASE_PATH .'onyx/database/creds.php') && dirname(__FILE__) != 'install'){
-    header('LOCATION:/install/');
-}
-
-include_once BASE_PATH .'onyx/core.php';
+require_once CORE_PATH .'core.php';
