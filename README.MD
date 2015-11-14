@@ -1,10 +1,10 @@
-##Author : ##
+#####Author : #####
         Deryk W. King
-##EMAIL : ##
+#####EMAIL : #####
         dking3876@msn.com
         deryk@royaltydesignstudios.com
-##WEBSITE: ##
+#####WEBSITE: #####
         derykwking.com 
-##GIT: ##
+#####GIT: #####
         https://github.com/dking3876/
         
