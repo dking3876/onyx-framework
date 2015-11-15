@@ -5,9 +5,9 @@ define("ASSETS_PATH", BASE_PATH .'assets/');
 
 define("PLUGINS_PATH", BASE_PATH .'plugins/');
 
-if(!file_exists(ONYX_PATH . 'setting/database/Icreds.php')){
-    if(dirname(__FILE__) != 'install'){
-        header('LOCATION:/onyx/install/');
+if(!file_exists(BASE_PATH . 'setting/database/Icreds.php')){
+    if(!isset($_GET['installer'])){
+        header('LOCATION:onyx/install/index.php?installer=database');
     }
     require_once ONYX_PATH . 'includes/includes_loader.php';
 }else{

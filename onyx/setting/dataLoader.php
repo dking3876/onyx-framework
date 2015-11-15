@@ -10,3 +10,10 @@ foreach(glob(ONYX_PATH . "setting/database/tables/*_table.php") as $filename){
         $instantiate = new $file[0]();
     }
 }
+foreach(glob(BASE_PATH . "setting/database/tables/*_table.php") as $filename){
+    include_once $filename;
+    $file = explode('.',basename($filename));
+    if(class_exists($file[0])){
+        $instantiate = new $file[0]();
+    }
+}
