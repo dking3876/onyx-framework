@@ -5,12 +5,12 @@ define("ASSETS_PATH", BASE_PATH .'assets/');
 
 define("PLUGINS_PATH", BASE_PATH .'plugins/');
 
-if(!file_exists(CORE_PATH . 'setting/database/Icreds.php')){
+if(!file_exists(ONYX_PATH . 'setting/database/Icreds.php')){
     if(dirname(__FILE__) != 'install'){
-        header('LOCATION:/install/');
+        header('LOCATION:/onyx/install/');
     }
-    require_once CORE_PATH . 'include/scripts.php';
+    require_once ONYX_PATH . 'includes/includes_loader.php';
 }else{
-    require_once CORE_PATH . 'setting/database/dataLoader.php';
+    require_once ONYX_PATH . 'setting/database/dataLoader.php';
 }
 

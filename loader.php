@@ -13,10 +13,10 @@
  */ 
 define("BASE_PATH", dirname(realpath(__FILE__)).'/');
 
-define("CORE_PATH", BASE_PATH .'onyx/');
+define("ONYX_PATH", BASE_PATH .'onyx/');
 
 define("ADMIN_PATH", BASE_PATH .'admin/');
 
 define("DEBUG_MODE", TRUE);
 
-require_once CORE_PATH .'core.php';
+require_once ONYX_PATH .'core.php';
