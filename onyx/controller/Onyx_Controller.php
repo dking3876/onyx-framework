@@ -20,7 +20,7 @@ class OnyxController {
         
     }
     final public function view($view,$path = DATA_PATH){
-        include $path . "view/{$view}/{$view}.php";
+        include $path . "view/{$view}.php";
     }
     
     final public function model($model, $path = DATA_PATH){
@@ -28,4 +28,8 @@ class OnyxController {
         $tmpModel = new $model();
         return $tmpModel;
     }
+    final public function controller($controller, $path = DATA_PATH){
+        
+    }
 }
+echo 'onyx_controller';

@@ -1,4 +1,5 @@
 <?php 
+include_once ONYX_PATH . 'model/OnyxAuthenticate.php';
 class OnyxInstaller extends OnyxController {
     
     private $installationStage;
@@ -6,7 +7,8 @@ class OnyxInstaller extends OnyxController {
     private $authKey;
     
     public function __construct($stage = null){
-        $this->installationStage = $stage;
+        echo 'construct';
+        $this->installationStage = $stage ? $stage : $_GET['installer'];
         $this->authKey = $_GET['auth'];
         $method = "Onyx{$this->installationStage}";
         $this->$method();

@@ -13,8 +13,10 @@ if(!file_exists(BASE_PATH . 'setting/database/Icreds.php')){
     if(!isset($_GET['installer'])){
         header("LOCATION:".$onyxAuthenticate->getInstallUrl());
     }else{
-        include ONYX_PATH . 'install/installer.php';
+        include_once ONYX_PATH . 'controller/onyxInstaller.php';
     }
 }else{
     require_once ONYX_PATH . 'setting/database/dataLoader.php';
 }
+echo 'core';
+$onyxLoader = new OnyxInstaller();   

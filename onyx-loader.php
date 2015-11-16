@@ -21,4 +21,5 @@ define("DATA_PATH", BASE_PATH . 'data/');
 
 define("DEBUG_MODE", true);
 
+echo 'onyxloader.php';
 require_once ONYX_PATH .'core.php';
