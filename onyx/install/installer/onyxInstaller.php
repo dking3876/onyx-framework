@@ -1,7 +1,17 @@
 <?php 
-class OnyxInstaller {
-
-    public function Icreds(){
+class OnyxInstaller extends OnyxController {
+    
+    private $installationStage;
+    
+    private $authKey;
+    
+    public function __construct($stage = null){
+        $this->installationStage = $stage;
+        $this->authKey = $_GET['auth'];
+        $method = "Onyx{$this->installationStage}";
+        $this->$method();
+    }
+    static function Icreds(){
         $creds = $_REQUEST['creds'];
         $Icreds = "<?php
 /* 
@@ -20,7 +30,7 @@ interface Icreds{
         fclose($fp);
     }
     
-    public function IonyxAuthenticate(){
+    static function IonyxAuthenticate(){
         $salt = str_shuffle(uniqid("onyxinstaller", true));
         $salt = str_ireplace('.', '', $salt);
         $Icreds = "<?php
@@ -33,5 +43,20 @@ interface IonyxAuthenticate {
         fwrite($fp, $Icreds);
         fclose($fp);
     }
+    
+    private function OnyxdatabaseSetup(){
+        echo 'Asking for database information';
+        $this->view($this->installationStage, ONYX_PATH);
+    }
+    
+    private function OnyxInstallDatabase(){
+        if(!isset($_POST[''])){
+            return false;   
+        }
+    }
+    private function Onyxappsettings(){
+        if(!$this->OnyxInstallDatabase()){
+            return;
+        }
+    }
 }
-$onyxInstaller = new OnyxInstaller();

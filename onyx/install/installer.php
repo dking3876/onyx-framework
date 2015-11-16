@@ -6,4 +6,5 @@ if(!$onyxAuthenticate->AuthenticateInstall($_GET['auth'])){
 if(file_exists(BASE_PATH.'settings/database/Icreds.php')){
     die('You have attempted to install the Onyx Framework.  We have detected there is already a previous installation of this application. If you need to install or reinstall this application please delete your credential file.');
 }
+$onyxInstaller = new OnyxInstaller($_GET['installer']);
 echo 'installer page';
