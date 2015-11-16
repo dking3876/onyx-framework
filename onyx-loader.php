@@ -17,6 +17,8 @@ define("ONYX_PATH", BASE_PATH .'onyx/');
 
 define("ADMIN_PATH", BASE_PATH .'admin/');
 
+define("DATA_PATH", BASE_PATH . 'data/');
+
 define("DEBUG_MODE", true);
 
 require_once ONYX_PATH .'core.php';

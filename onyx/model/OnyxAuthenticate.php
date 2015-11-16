@@ -54,7 +54,8 @@ final class OnyxAuthenticate implements IonyxAuthenticate {
         
     }
     public function getInstallUrl(){
-        return $_SERVER['PHP_SELF'] . '?installer=databaseSetup&auth='.$this->encryptionKey;
+        //return $_SERVER['PHP_SELF'] . '?installer=databaseSetup&auth='.$this->encryptionKey;
+        return 'install?installer=databaseSetup&auth='.$this->encryptionKey;
     }
 }
 $onyxAuthenticate = new OnyxAuthenticate();
