@@ -1,4 +1,5 @@
 <?php
+include_once ONYX_PATH . 'model/OnyxAuthenticate.php';
 require_once ONYX_PATH . 'setting/database/connect.php';
 require_once ONYX_PATH . 'setting/database/datastructure.php';
 
