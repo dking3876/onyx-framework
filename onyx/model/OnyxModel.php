@@ -13,19 +13,10 @@ class OnyxModel {
     public $Onyx;
     
     final public function __construct(){
-        $this->Onyx = OnyxService::GetInstance();
+        $this->Onyx = &OnyxService::GetInstance();
         
         $this->main();
     }
-    /*
-    final static function GetInstance(){
-        if(OnyxModel::$instance == null){
-            OnyxModel::$instance = new OnyxModel();
-        }
-        return OnyxModel::$instance;
-    }
-    */
-
     public function styles($file, $path = null, $plugin = null){
         if(is_array($file) && (isset($file['type']) && $file['type'] == 'inline')){
             $this->buildInlineStyle($file);

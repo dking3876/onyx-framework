@@ -12,7 +12,7 @@ abstract class OnyxController implements IOnyxController {
     public $action;
     
     final protected function __construct($service = null){
-        $this->Onyx = OnyxService::GetInstance();
+        $this->Onyx = &OnyxService::GetInstance();
         $this->main($service = null);
     }
     
