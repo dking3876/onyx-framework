@@ -1,5 +1,5 @@
 <?php 
-class OnyxInstall extends OnyxController {
+class OnyxInstallController extends OnyxController {
     
     protected $installationStage;
     
@@ -9,6 +9,7 @@ class OnyxInstall extends OnyxController {
         $this->installationStage = isset($_GET['installer']) && ($_GET['installer'] != '' || $_GET['installer'] != null)? $_GET['installer'] : 'StartInstaller';
         $this->authKey = isset($_GET['auth']) ? $_GET['auth'] : '';
         $this->action = $method = "Onyx{$this->installationStage}";
+        $this->model = $this->model();
         $this->$method();
     }
     

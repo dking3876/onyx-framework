@@ -9,52 +9,23 @@ class OnyxModel {
     
     public $footerScripts;
     
-    static $instance = null;
+    //static $instance = null;
+    public $Onyx;
     
-    public function __construct(){
+    final public function __construct(){
+        $this->Onyx = OnyxService::GetInstance();
         
+        $this->main();
     }
+    /*
     final static function GetInstance(){
         if(OnyxModel::$instance == null){
             OnyxModel::$instance = new OnyxModel();
         }
         return OnyxModel::$instance;
     }
-    /*
-    final public function getPath(){
-        $base = BASE_PATH;
-        $newRaw = rtrim(str_replace(realpath($_SERVER['DOCUMENT_ROOT']), '', $base), '/');
-        $newRaw = str_replace('\\', '/', $newRaw);
-        $rawUrl = 'http'.(isset($_SERVER['HTTPS'])?'s':'').'://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
-        $parsedUrl = parse_url($rawUrl);
-        $parsedUrl['path'] = str_replace($newRaw, '', $parsedUrl['path']);
-        $rawPath = array_values(array_filter(explode('/',$parsedUrl['path'])));
-        foreach($rawPath as $value){
-            $path[] = ucfirst($value);
-        }
-        $PathParts = array();
-        $controller = $path[0];
-        $PathParts['path'] = $rawPath;
-        if($path[0] == "Onyx"){
-            $PathParts['base'] = ONYX_PATH;
-            $PathParts['controller'] = $path[0].$path[1];
-            unset($path[0]);
-        }else{
-            $PathParts['controller'] = $path[0];
-        }
-        unset($path[1]);
-        $path = array_values($path);
-        if(count($path) != 0){
-            $PathParts['action'] = $path[0];
-            if(count($path) != 1){
-                unset($path[0]);
-                $path = array_values($path);
-                $PathParts['query'] = implode('/',$path);
-            }
-        }
-        return $PathParts;
-    }
     */
+
     public function styles($file, $path = null, $plugin = null){
         if(is_array($file) && (isset($file['type']) && $file['type'] == 'inline')){
             $this->buildInlineStyle($file);
