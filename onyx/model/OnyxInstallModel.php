@@ -44,9 +44,10 @@ interface IonyxAuthenticate {
     public function GenerateSalt(){
         $salt = str_shuffle(uniqid("onyxinstaller", true));
         $salt = str_ireplace('.', '', $salt);
+        $this->Onyx->viewData(array('test' => 'hello', 'test1' => 'goodbye'));
         if($this->IonyxAuthenticate($salt)){
             return $salt;
-        }
+        }        
         return false;
     }
     public function CheckSystemHealth(){

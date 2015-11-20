@@ -14,9 +14,10 @@ class OnyxInstallController extends OnyxController {
     }
     
     protected function OnyxStartInstaller(){
+        
         $this->model->styles(array('file'=>'testing.css'), 'Onyx');
         $auth = $this->model->GenerateSalt();
-        $this->viewData(array('auth' => $auth));
+        $this->Onyx->viewData(array('auth' => $auth));
         //Get install authorization here with method call
         $this->renderPage('welcome.install');
     }

@@ -39,7 +39,7 @@ final class OnyxService extends OnyxServiceExtention {
     /**
      *  $viewData stores any data that may need to be passed between Model and the View.  Store a key value pair array ie array("MyKey" => "MyValue")
      */
-    public $viewData = array();
+    public $viewData;
     
     public $OnyxAuthenticate;
     
@@ -120,7 +120,6 @@ final class OnyxService extends OnyxServiceExtention {
         );
     }
     final public function viewData($args){
-        $this->viewData = $args;   
+        $this->viewData[] = $args;   
     }
 }
-OnyxService::GetInstance();

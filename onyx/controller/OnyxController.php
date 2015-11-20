@@ -5,8 +5,6 @@ abstract class OnyxController implements IOnyxController {
     
     public $Onyx;
     
-    public $viewData = array();
-    
     public $model;
     
     public $action;
@@ -24,8 +22,10 @@ abstract class OnyxController implements IOnyxController {
     final public function view($view,$path = null){
         $base = $path ? $path : $this->Onyx->base;
         if(file_exists($path . "view/{$view}.html.php")){
-            foreach($this->Onyx->viewData as $key => $value){
-                $$key = $value;   
+            foreach($this->Onyx->viewData as $item){
+                foreach($item as $key => $value){
+                    $$key = $value;  
+                }
             }
             echo "\r\n";
             include_once $path . "view/{$view}.html.php";
@@ -65,9 +65,11 @@ abstract class OnyxController implements IOnyxController {
         if($header === null){
             $header = "header";    
         }
-        foreach($this->Onyx->viewData as $key => $value){
-            $$key = $value;   
-        }
+            foreach($this->Onyx->viewData as $item){
+                foreach($item as $key => $value){
+                    $$key = $value;  
+                }
+            }
         $PageHeaderScripts = $this->model->renderHeaderScripts();
         $PageStyles = $this->model->renderStyles();
         $PageTitle = '';
@@ -81,9 +83,11 @@ abstract class OnyxController implements IOnyxController {
         if($footer === null){
             $footer = "footer";    
         }
-        foreach($this->Onyx->viewData as $key => $value){
-            $$key = $value;   
-        }
+            foreach($this->Onyx->viewData as $item){
+                foreach($item as $key => $value){
+                    $$key = $value;  
+                }
+            }
         $PageFooterScripts = $this->model->renderFooterScripts();
         if(file_exists($base .  "view/{$footer}.html.php")){
             include_once $base .  "view/{$footer}.html.php";
@@ -111,8 +115,5 @@ abstract class OnyxController implements IOnyxController {
             'function'  => $function,
             'arguments' => $args
         );
-    }
-    final public function viewData($args){
-        $this->Onyx->viewData = $args;   
     }
 }
