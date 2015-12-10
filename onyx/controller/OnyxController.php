@@ -1,6 +1,4 @@
 <?php
-require_once ONYX_PATH . 'controller/IOnyxController.php';
-include_once ONYX_PATH . 'service/OnyxService.php';
 abstract class OnyxController implements IOnyxController {
     
     public $Onyx;
@@ -40,7 +38,7 @@ abstract class OnyxController implements IOnyxController {
         }
         $model = str_replace("Controller", "Model", $model);
         if(file_exists($base . "model/{$model}.php")){
-            include_once $base . "model/{$model}.php";
+            //include_once $base . "model/{$model}.php";
             $tmpModel = new $model();
             return $tmpModel;
         }else{ echo "couldnt' fine $model Model"; }
@@ -48,9 +46,9 @@ abstract class OnyxController implements IOnyxController {
         //return false;
     }
     final public function controller($controller, $path = null){
-        $base = $path ? $path : $this->Onyx->base;
+        $base = $path != null? $path : $this->Onyx->base;
         if(file_exists($base . "controller/{$controller}.php")){
-            include_once $base . "controller/{$controller}.php";
+            //include_once $base . "controller/{$controller}.php";
             if(class_exists($controller)){
                 $tmpController = new $controller();
             }else{

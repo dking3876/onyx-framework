@@ -1,5 +1,15 @@
 <?php
-require_once BASE_PATH . 'onyx/service/OnyxServiceExtention.php';
+//require_once BASE_PATH . 'onyx/service/OnyxServiceExtention.php';
+/**
+ * Onyx Service
+ *
+ * Singleton Onyx Service stores for use all page and path variables in multiple formats.  Stores all query vars ($_GET, $_POST, $_FILES). Stores all data needed to pass to the views
+ * @package Onyx Framework
+ * @author Deryk W. King
+ * @version 1.0
+ * @Final
+ */
+
 final class OnyxService extends OnyxServiceExtention {
     
     private $parsedUrl; //Entire Url parsed out into Protocal(scheme), host, path, QueryString(query)
@@ -39,26 +49,33 @@ final class OnyxService extends OnyxServiceExtention {
     /**
      *  $viewData stores any data that may need to be passed between Model and the View.  Store a key value pair array ie array("MyKey" => "MyValue")
      */
-    public $viewData;
+    public $viewData = array();
     
     public $OnyxAuthenticate;
     
     public $OnyxIntercepts;
     
     static $instance = null;
-    
-    
-    final private function __construct(){
+    /**
+     * [[Description]]
+     */
+    private function __construct(){
         $this->getPath();
     }    
-    final static function GetInstance(){
+    /**
+     * [[Description]]
+     * @return [[Type]] [[Description]]
+     */
+    static function GetInstance(){
         if(OnyxService::$instance == null){
             OnyxService::$instance = new OnyxService();
         }
         return OnyxService::$instance;
     }
-    
-    final protected function getPath(){
+    /**
+     * [[Description]]
+     */
+    protected function getPath(){
         
         
         $rawUrl = 'http'.(isset($_SERVER['HTTPS'])?'s':'').'://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
@@ -77,11 +94,18 @@ final class OnyxService extends OnyxServiceExtention {
         if(isset($path[0])){
             if($path[0] == "Onyx"){
                 $this->base = ONYX_PATH;
-
-                $this->controller = $path[0].(isset($path[1])? $path[1] : '').'Controller';
+                $this->controller = $path[0].(isset($path[1])? $path[1] : 'Default').'Controller';
+                $this->viewData(array('page' => $path[0].(isset($path[1])? $path[1] : 'index')));
             }else{
+                $this->viewData(array('page' => $path[0]));
                 $this->controller = $path[0].'Controller';
             }
+        }else{
+            $this->controller = 'DefaultController';
+            if(!file_exists(BASE_PATH.'data/controller/DefaultController.php')){
+                $this->controller = 'Onyx'.$this->controller;
+            }
+            $this->viewData(array('page' => 'index'));
         }
         $queryString = explode("&", ( isset($this->parsedUrl['query']) ? $this->parsedUrl['query'] : '' ) );
         
@@ -100,9 +124,13 @@ final class OnyxService extends OnyxServiceExtention {
             }
         }
         $this->query = array_filter($this->query);
-
     }
-    final private function parsedUrlHelper($parsedUrl){
+    /**
+     * Method for determining the root directory even if installed in a subfolder
+     * @param  array $parsedUrl Array containing all url parts from parse_url()
+     * @return array adjusted array values accounting for subfolder installation
+     */
+    private function parsedUrlHelper($parsedUrl){
         //For helping with local file system and installation is subfolders
         $newRaw = rtrim(str_replace(realpath($_SERVER['DOCUMENT_ROOT']), '', BASE_PATH), '/');
         $newRaw = str_replace('\\', '/', $newRaw);
@@ -111,15 +139,24 @@ final class OnyxService extends OnyxServiceExtention {
         
         return  array_values(array_filter(explode('/',$parsedUrl['path'])));;
     }
-    
-    final public function OnyxIntercept($action, $function, $args = null){
+    /**
+     * [[Description]]
+     * @param [[Type]] $action        [[Description]]
+     * @param [[Type]] $function      [[Description]]
+     * @param [[Type]] [$args = null] [[Description]]
+     */
+    public function OnyxIntercept($action, $function, $args = null){
         $this->OnyxIntercepts[] = array(
             'action'    => $action,
             'function'  => $function,
             'arguments' => $args
         );
     }
-    final public function viewData($args){
-        $this->viewData[] = $args;   
+    /**
+     * [[Description]]
+     * @param [[Type]] $args [[Description]]
+     */
+    public function viewData($args){
+        $this->viewData[] = $args;
     }
 }

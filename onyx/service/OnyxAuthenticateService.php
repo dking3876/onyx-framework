@@ -1,6 +1,4 @@
 <?php 
-require_once BASE_PATH.'settings/database/IonyxAuthenticate.php';
-
 final class OnyxAuthenticate implements IonyxAuthenticate {
     
     private $salt;

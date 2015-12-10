@@ -5,7 +5,7 @@ class OnyxInstallModel extends OnyxModel {
         
     }
     private function Icreds(){
-        $creds = $_REQUEST['creds'];
+        $creds = $_POST;
         $Icreds = "<?php
 /* 
  * Credential Interface
@@ -44,13 +44,29 @@ interface IonyxAuthenticate {
     public function GenerateSalt(){
         $salt = str_shuffle(uniqid("onyxinstaller", true));
         $salt = str_ireplace('.', '', $salt);
-        $this->Onyx->viewData(array('test' => 'hello', 'test1' => 'goodbye'));
         if($this->IonyxAuthenticate($salt)){
             return $salt;
         }        
         return false;
     }
     public function CheckSystemHealth(){
-        //check if fopen ok check for needed functions like curl, file_get_contents, allow_url_fopen, http_post_data, new HTTPRequest() , disk is writtable check for mysql, pdo capabilities, use extenstion_loaded to check for php libs
+        $mysql = extension_loaded("mysql")? 'pass': 'fail';
+        $curl = function_exists("curl_init")? 'pass': 'fail';
+        $writable = is_writable(BASE_PATH)? 'pass': 'fail';
+        $mail = mail("deryk@royaltydesignstudios.com", "mailtest", "Testing status of mail function")? 'pass': 'fail';
+        $dependancies = array(
+            "mysql" => $mysql,
+            "curl" => $curl,
+            "writeable" => $writable,
+            "mail" => $mail
+        );
+        $continueStatus = '';
+        foreach($dependancies as $item => $status){
+            if($status == 'fail'){
+                $continueStatus = 'disabled';
+            }
+        }
+        $dependancies['continueStatus'] = $continueStatus;
+        $this->Onyx->viewData($dependancies); 
     }
 }

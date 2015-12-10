@@ -10,27 +10,57 @@ class OnyxInstallController extends OnyxController {
         $this->authKey = isset($_GET['auth']) ? $_GET['auth'] : '';
         $this->action = $method = "Onyx{$this->installationStage}";
         $this->model = $this->model();
+        $adminCSS = array(
+            'type'  => 'external',
+            'title' => 'OnyxMasterCSS',
+            'file'  => 'OnyxAdmin.css'
+            );
+        $path = 'Onyx';
+        $this->model->styles($adminCSS, $path);
+        $installerjs = array(
+            'type'  => 'external',
+            'file'  => 'installation.js'
+            );
+        $this->model->headerScripts('jquery');
+        $this->model->headerScripts($installerjs, $path);
+        /*$this->model->styles();
+        $this->model->styles();
+        $this->model->styles();
+        $this->model->styles();
+        $this->model->headerScripts();
+        $this->model->headerScripts();
+        $this->model->headerScripts();
+        $this->model->footerScripts();
+        */
+
         $this->$method();
     }
     
     protected function OnyxStartInstaller(){
-        
-        $this->model->styles(array('file'=>'testing.css'), 'Onyx');
-        $auth = $this->model->GenerateSalt();
+        $auth = uniqid();
         $this->Onyx->viewData(array('auth' => $auth));
-        //Get install authorization here with method call
+        $this->model->CheckSystemHealth();
         $this->renderPage('welcome.install');
     }
     protected function OnyxDatabaseSetup(){
+        if($this->Onyx->query['OnyxAuth'] != $_GET['auth']){
+            die('You do not have permission to Access this page');
+        }
+        $this->Onyx->viewData(array("OnyxAuth" => $this->Onyx->query['OnyxAuth']));
         $this->renderPage($this->action);
     }
     
     protected function OnyxInstallDatabase(){
-        if(!isset($_POST[''])){
-            return false;   
+        if($this->Onyx->query['OnyxAuth'] != $_GET['auth']){
+            die('You do not have permission to Access this page');
         }
+        $this->Onyx->viewData(array("OnyxAuth" => $this->Onyx->query['OnyxAuth']));
     }
     protected function OnyxAppSetup(){
+        if($this->Onyx->query['OnyxAuth'] != $_GET['auth']){
+            die('You do not have permission to Access this page');
+        }
+        $this->Onyx->viewData(array("OnyxAuth" => $this->Onyx->query['OnyxAuth']));
         $this->renderPage($this->action);
     }
 }

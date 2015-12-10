@@ -9,18 +9,28 @@ class onyx_users_table extends DataStructure{
         return $this->table;
     }
     public function set_primary_key(){
-        $this->primaryKey = "OID";
+        $this->primaryKey = "OUID";
     }
     public function set_columns(){
         $column[] = (object) array(
-                    'column_name'    => "OID",
-                        'type'      => "varchar(100)",
+                    'column_name'    => "OUID",
+                        'type'      => "int(10)",
                         'default'   => "AUTO_INCREMENT NOT NULL"
         );
         $column[] = (object) array(
                     'column_name'    => "UserName",
                         'type'      => "varchar(100)",
                         'default'   => "NOT NULL"
+        );
+        $column[] = (object) array(
+                    'column_name'   => "FirstName",
+                        'type'      => "varchar(100)",
+                        'default'   => "NULL"
+        );
+        $column[] = (object) array(
+                    'column_name'   => "LastName",
+                        'type'      => "varchar(100)",
+                        'default'   => "NULL"
         );
         $column[] = (object) array(
                     'column_name'    => "Email",

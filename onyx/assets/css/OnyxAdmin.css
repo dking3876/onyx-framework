@@ -1,0 +1,181 @@
+/* line 3, sass/OnyxAdmin.scss */
+h1 {
+  font-size: 1.75em;
+}
+
+/* line 6, sass/OnyxAdmin.scss */
+h2 {
+  font-size: 1.5em;
+}
+
+/* line 9, sass/OnyxAdmin.scss */
+h3 {
+  font-size: 1.35em;
+}
+
+/* line 12, sass/OnyxAdmin.scss */
+h4, h5, h6 {
+  font-size: 1.15em;
+}
+
+/* line 15, sass/OnyxAdmin.scss */
+form {
+  background-color: rgba(250, 250, 250, 0.5);
+  padding-left: 25px;
+  box-sizing: border-box;
+}
+/* line 19, sass/OnyxAdmin.scss */
+form h2 {
+  font-family: "News Cycle";
+  font-size: 28px;
+  margin-top: 0px;
+}
+/* line 24, sass/OnyxAdmin.scss */
+form * {
+  box-sizing: border-box;
+}
+/* line 27, sass/OnyxAdmin.scss */
+form label {
+  display: block;
+  padding: 0px 25px;
+  margin-bottom: 15px;
+  font-size: 18px;
+  text-transform: uppercase;
+}
+/* line 34, sass/OnyxAdmin.scss */
+form label:after {
+  clear: both;
+  display: block;
+  content: "";
+}
+/* line 39, sass/OnyxAdmin.scss */
+form label span {
+  display: inline-block;
+  width: 35%;
+  float: left;
+  font-family: "Alegreya Sans SC";
+  font-weight: 700;
+}
+/* line 47, sass/OnyxAdmin.scss */
+form label input, form label select, form label textarea {
+  width: 40%;
+  display: inline-block;
+  float: left;
+}
+/* line 52, sass/OnyxAdmin.scss */
+form label input[type="number"], form label select[type="number"], form label textarea[type="number"] {
+  max-width: 50px;
+}
+/* line 55, sass/OnyxAdmin.scss */
+form label input[type="radio"], form label select[type="radio"], form label textarea[type="radio"] {
+  max-width: 50px;
+  float: none;
+}
+/* line 60, sass/OnyxAdmin.scss */
+form label textarea {
+  height: 135px;
+  font-size: 15px;
+}
+/* line 64, sass/OnyxAdmin.scss */
+form label label {
+  margin-left: 160px;
+  float: left;
+  width: 150px;
+  font-size: 24px;
+  font-family: "Alegreya Sans SC";
+  font-weight: 700;
+  text-transform: uppercase;
+}
+/* line 73, sass/OnyxAdmin.scss */
+form label input[type="text"] {
+  width: 300px;
+}
+/* line 77, sass/OnyxAdmin.scss */
+form input[type="submit"] {
+  width: 200px;
+  padding: 10px;
+  font-family: "Alegreya Sans SC";
+  font-weight: 900;
+  font-size: 20px;
+  clear: both;
+  float: left;
+}
+
+/* line 88, sass/OnyxAdmin.scss */
+.left {
+  float: left;
+}
+
+/* line 91, sass/OnyxAdmin.scss */
+.right {
+  float: right;
+}
+
+/* line 94, sass/OnyxAdmin.scss */
+.pre-loader {
+  width: 45px;
+  height: 45px;
+}
+
+/* line 98, sass/OnyxAdmin.scss */
+html {
+  background-image: url("../images/onyx-pattern.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+  height: 100%;
+}
+
+/* line 106, sass/OnyxAdmin.scss */
+body {
+  padding: 10px;
+}
+/* line 108, sass/OnyxAdmin.scss */
+body.Onyxinstall {
+  color: #fff;
+}
+/* line 110, sass/OnyxAdmin.scss */
+body.Onyxinstall:before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(250, 250, 250, 0.05);
+  background-color: rgba(0, 0, 0, 0.55);
+  display: block;
+  content: "";
+  z-index: -1;
+}
+/* line 122, sass/OnyxAdmin.scss */
+body.Onyxinstall:after {
+  content: "";
+  clear: both;
+  display: block;
+}
+/* line 127, sass/OnyxAdmin.scss */
+body.Onyxinstall #db, body.Onyxinstall #lib, body.Onyxinstall #write {
+  position: relative;
+  padding: 10px 25px;
+}
+/* line 130, sass/OnyxAdmin.scss */
+body.Onyxinstall #db .status, body.Onyxinstall #lib .status, body.Onyxinstall #write .status {
+  width: 45px;
+  height: 45px;
+  display: block;
+  background-image: url("../images/onyx-loader.gif");
+  background-repeat: no-repeat;
+  background-size: contain;
+  position: absolute;
+  left: -25px;
+  top: 0px;
+}
+
+/* line 145, sass/OnyxAdmin.scss */
+body.Onyxinstall .welcome-message {
+  width: 35%;
+}
+/* line 148, sass/OnyxAdmin.scss */
+body.Onyxinstall .health-check {
+  width: 60%;
+}
