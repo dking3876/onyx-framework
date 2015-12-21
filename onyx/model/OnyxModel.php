@@ -20,7 +20,10 @@ class OnyxModel {
      */
     final public function __construct(){
         $this->Onyx = &OnyxService::GetInstance();
-        
+        if(file_exists(BASE_PATH.'settings/IOnyxCreds.php')){
+            define('ONYX_ACCESS', true); 
+            $this->connection  = &OnyxConnectionService::GetInstance();
+        }
         $this->main();
     }
     /**

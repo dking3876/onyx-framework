@@ -1,5 +1,5 @@
 <?php 
-class OnyxConnection  {
+class OnyxConnectionService implements IOnyxCreds {
     
     static $instance = null;
     
@@ -7,33 +7,55 @@ class OnyxConnection  {
     
     private $type = null;
     
-    final protected function __construct(){
-       
-        $connectionTypes = array(
-            'MySQL',
-            'PDO',
-            'MongoDB',
-            'PostgreSQL',
-            'SQLite',
-            'SQLite3'
-            );
+    public $ENV;
+    
+    public $errorDisplay = false;
+    
+    private $connect;
+    
+    final protected function __construct(OnyxUtilities $onyxUtilities ){
+       //Get from setup onyx file under supported connections
+        $connectionTypes = $onyxUtilities->ReadOnyxFile('connections', 'supportedTypes');
+        $this->ENV = IOnyxCreds::ENV;
+        if($this->ENV != 'LIVE'){
+            $this->errorDisplay = true;
+        }
+        $host =  IOnyxCreds::HOST;
+        $user = IOnyxCreds::USER;
+        $pass = IOnyxCreds::PASS;
+        $db = IOnyxCreds::DB;
+        $this->connect = $connect = IOnyxCreds::CONNECTION;
+        
         foreach($connectionTypes as $connect){
-            do{
-                if(file_exists(ONYX_PATH . 'settings/database/'.$connect.'Connect.php')){
-                    require_once ONYX_PATH . 'settings/database/'.$connect.'Connect.php';
-                    $this->connection = DBConnect::GetInstance();
-                    $this->type = $connect;
-                }
-            }while($this->type == null);
+            echo $connect;
+            //check if onyx supports connection type by checking for the existance of the {connection}Connect.php file and ensure that 
+            if(file_exists(ONYX_PATH . 'settings/database/'.$connect.'Connect.php') && ($this->connect == $connect) ){
+                //require_once ONYX_PATH . 'settings/database/'.$connect.'Connect.php';
+                //Build connection string
+                $dbConnect = {$connect}.'DBConnect';
+                $this->connection = $dbconnect::GetInstance( array(
+                    $host,
+                    $user,
+                    $pass,
+                    $db,
+                    $this->ENV,
+                    $this->errorDisplay
+                ));
+                $this->type = $connect;
+            }
+        }
+        if($this->type === null){
+            echo '<h1>Database Connection Error</h1>';
+            die();
         }
         
     }
     
     static function GetInstance(){
-        if(OnyxConnection::$instance == null){
-            OnyxConneciton::$instance = new OnyxConnection();
+        if(self::$instance == null){
+            self::$instance = new OnyxConnectionService();
         }
-        return OnyxConnection::$instance;
+        return self::$instance;
     }
     
     public function save($args = array()){

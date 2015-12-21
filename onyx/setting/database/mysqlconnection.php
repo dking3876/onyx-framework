@@ -1,42 +1,38 @@
 <?php 
-require_once(BASE_PATH . 'settings/IOnyxCreds.php');
+//require_once(BASE_PATH . 'settings/IOnyxCreds.php');
 /*
 *
 * DBConnect class for use with the Brafton Update API for plugins and modules
 *
 */
-class DBConnect implements Icreds {
+class MySQLDBConnect implements IOnyxConnection{
     private $host;
     private $user;
     private $pass;
     private $db;
-    protected $connection;
-    public $ENV;
-    public $errorDisplay = false;
-    
+    protected $connection;    
     static $instance = null;
     
     //constuct the db connection
-    public function __construct(){
-        $this->ENV = Icreds::ENV;
-        if($this->ENV != 'LIVE'){
-            $this->errorDisplay = true;
-        }
-        $this->host = Icreds::HOST;
-        $this->user = Icreds::USER;
-        $this->pass = Icreds::PASS;
-        $this->db = Icreds::DB;
+    public function __construct($args){
+        $this->host = $args[0];
+        $this->user = $args[1];
+        $this->pass = $args[2];
+        $this->db = $args[3];
         $this->connection = $this->hook();
     }
-    static function GetInstance(){
-        if(DBConnect::$instance == null){
-          DBConnect::$instance = new DBConnect();
+    static function GetInstance($args){
+        if(self::$instance == null){
+          self::$instance = new self($args);
         }
-        return DBConnect::$instance;
+        return self::$instance;
     }
     //make the database connection
     private function hook(){
         $hook = mysqli_connect($this->host, $this->user, $this->pass, $this->db);
+        if(!$hook){
+            die('Error Connecting to the Database'.mysqli_connect_errno().PHP_EOL);
+        }
         return $hook;
     }
     public function idle_query($sql){
@@ -154,15 +150,10 @@ class DBConnect implements Icreds {
         $result = $this->connection->query($sql);
         return $result;
     }
-    public function show_env(){
-        if($this->ENV != 'LIVE'){
-            echo $this->ENV;
-        }
-    }
     public function mysqli_error(){
         return $this->connection->error;
     }
-    public function query_for_table($table){
+    public function describe($table){
         return $this->connection->query("DESCRIBE `$table`");   
     }
     public function connection_method($method){
@@ -174,5 +165,5 @@ class DBConnect implements Icreds {
         return $this->db;   
     }
 }
-$con = new DBConnect();
+//$con = new DBConnect();
 ?>

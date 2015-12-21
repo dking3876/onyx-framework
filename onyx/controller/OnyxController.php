@@ -7,15 +7,46 @@ abstract class OnyxController implements IOnyxController {
     
     public $action;
     
+    private $html_header = null;
+    
+    private $html_footer = null;
+    
     final protected function __construct($service = null){
         $this->Onyx = &OnyxService::GetInstance();
         $this->main($service = null);
     }
-    
+    /**
+     * Setting up for future use to add theming into the framework
+     
+    public function set_header($header){
+        if( count( $head = explode('.', $header) ) == 3 && ( $head[1] == 'html' && $head[2] == 'php' ) ){
+            $this->html_header = $header;   
+        }else if($header == null){
+            $this->html_header = null;
+        }else{
+            //Trigger Onyx Error object with message "your header must be in the proper format"  {name}.html.php
+            return false;
+        }
+        return true;
+    }
+    public function set_footer($footer){
+        if(count($foot = explode('.', $footer)) == 3 && ( $foot[1] == 'html' && $foot[2] == 'php')){
+            $this->html_footer = $footer;   
+        }else if($footer == null){
+            $this->html_footer = null;
+        }else{
+            //Trigger Onyx Error object with message "your footer must be in the proper format"  {name}.html.php
+            return false;
+        }
+        return true;
+    }
+    */
     public function loadAction(){
         
     }
-    
+    public function set_dependancy($dependancy){
+        
+    }
     
     final public function view($view,$path = null){
         $base = $path ? $path : $this->Onyx->base;
