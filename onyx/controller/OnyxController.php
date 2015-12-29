@@ -13,6 +13,8 @@ abstract class OnyxController implements IOnyxController {
     
     final protected function __construct($service = null){
         $this->Onyx = &OnyxService::GetInstance();
+        
+        $this->OnyxAJAX();
         $this->main($service = null);
     }
     /**
@@ -77,7 +79,9 @@ abstract class OnyxController implements IOnyxController {
         //return false;
     }
     final public function controller($controller, $path = null){
+        $tmpController = null;
         $base = $path != null? $path : $this->Onyx->base;
+        
         if(file_exists($base . "controller/{$controller}.php")){
             //include_once $base . "controller/{$controller}.php";
             if(class_exists($controller)){
@@ -144,5 +148,16 @@ abstract class OnyxController implements IOnyxController {
             'function'  => $function,
             'arguments' => $args
         );
+    }
+    
+    final public function OnyxAJAX(){
+        if(array_search('OnyxAJAX', $this->Onyx->args) === false){
+            return;
+        }
+        //Get position of OnyxAJAX in array and use the next position of the array for the actual function to run
+        $i = 0;
+        $method = $this->Onyx->args[$i];
+        $this->$method();
+        die();
     }
 }

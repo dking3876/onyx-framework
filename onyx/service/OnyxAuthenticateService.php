@@ -49,7 +49,7 @@ final class OnyxAuthenticate implements IonyxAuthenticate {
         $pass = array();
         $required = array(
             'core.php',
-            'includes_loader.php',
+            'OnyxUtilities.php',
             'onyx-loader.php'
         );
         foreach($included_files as $file){

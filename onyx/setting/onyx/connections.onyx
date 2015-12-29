@@ -1,12 +1,10 @@
-{
-    "connections":{
-        "supportedType":[
-            'MySQL',
-            'PDO',
-            'MongoDB',
-            'PostgreSQL',
-            'SQLite',
-            'SQLite3'
-        ]
+{"connections":
+    {"supportedType":
+        ["MySQL",
+        "PDO",
+        "MongoDB",
+        "PostgreSQL",
+        "SQLite",
+        "SQLite3"]
     }
 }

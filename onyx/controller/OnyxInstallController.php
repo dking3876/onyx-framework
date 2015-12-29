@@ -49,18 +49,19 @@ class OnyxInstallController extends OnyxController {
         $this->Onyx->viewData(array("OnyxAuth" => $this->Onyx->query['OnyxAuth']));
         $this->renderPage($this->action);
     }
-    
+    protected function OnyxAppSetup(){
+        if($this->Onyx->query['OnyxAuth'] != $_GET['auth']){
+            die('You do not have permission to Access this page');
+        }
+        $this->model->GenerateSalt();
+        $this->model->GenerateCreds();
+        $this->Onyx->viewData(array("OnyxAuth" => $this->Onyx->query['OnyxAuth']));
+        $this->renderPage($this->action);
+    }
     protected function OnyxInstallDatabase(){
         if($this->Onyx->query['OnyxAuth'] != $_GET['auth']){
             die('You do not have permission to Access this page');
         }
         $this->Onyx->viewData(array("OnyxAuth" => $this->Onyx->query['OnyxAuth']));
-    }
-    protected function OnyxAppSetup(){
-        if($this->Onyx->query['OnyxAuth'] != $_GET['auth']){
-            die('You do not have permission to Access this page');
-        }
-        $this->Onyx->viewData(array("OnyxAuth" => $this->Onyx->query['OnyxAuth']));
-        $this->renderPage($this->action);
     }
 }

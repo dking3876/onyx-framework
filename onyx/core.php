@@ -15,7 +15,7 @@ include_once ONYX_PATH . 'includes/OnyxErrorHandler.php';
 
 include_once ONYX_PATH . 'includes/OnyxFunctions.php';
 
-if(!file_exists(BASE_PATH . 'setting/database/Icreds.php')){
+if(!file_exists(BASE_PATH . 'settings/database/IOnyxCreds.php')){
     include_once ONYX_PATH . 'includes/OnyxInstaller.php';
     if(!isset($_GET['installer'])){
         header("LOCATION:".$_SESSION['Onyx_install_base_url']."Onyx/install/?installer");

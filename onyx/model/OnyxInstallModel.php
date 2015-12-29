@@ -11,16 +11,16 @@ class OnyxInstallModel extends OnyxModel {
  * Credential Interface
  */
  if(!ONYX_ACCESS) die('Access Denied');
-interface Icreds{
+interface IOnyxCreds{
     const HOST = '{$creds['HOST']}';
     const USER = '{$creds['USER']}';
     const PASS = '{$creds['PASSWORD']}';
     const DB = '{$creds['DATABASE']}';
-    const ENV = '{$creds['ENVIORMENT']}';
+    const ENV = '{$creds['ENVIROMENT']}';
     const CONNECTION = '{$creds['CONNECTION']}';
 }
 ";
-        $fp=fopen(BASE_PATH . 'settings/database/creds.php', 'w');
+        $fp=fopen(BASE_PATH . 'settings/database/IOnyxCreds.php', 'w');
         if(fwrite($fp, $Icreds)){
             return fclose($fp);
         }

@@ -20,10 +20,11 @@ class OnyxModel {
      */
     final public function __construct(){
         $this->Onyx = &OnyxService::GetInstance();
-        if(file_exists(BASE_PATH.'settings/IOnyxCreds.php')){
+        if(file_exists(BASE_PATH.'settings/database/IOnyxCreds.php')){
             define('ONYX_ACCESS', true); 
             $this->connection  = &OnyxConnectionService::GetInstance();
         }
+        //possible remove this method as nothing else "should" fire for the method
         $this->main();
     }
     /**
@@ -151,6 +152,10 @@ class OnyxModel {
             'angular' => array(
                 'headerScripts', 
                 'angular.min.js'
+                ),
+            'onyx'  => array(
+                'headerScripts',
+                'Onyx.js'
                 )
         );
         return $array;

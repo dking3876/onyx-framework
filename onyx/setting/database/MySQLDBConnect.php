@@ -130,7 +130,7 @@ class MySQLDBConnect implements IOnyxConnection{
         return $result;
     }
     //delete data $conditions must be an array
-    public function deleteData($table, $data, $conditions){
+    public function deleteData($table, $data, $condition = null){
         
     }
     //create table $fields must be array
@@ -163,6 +163,12 @@ class MySQLDBConnect implements IOnyxConnection{
     }
     public function getDBName(){
         return $this->db;   
+    }
+    public function getDB(){
+        
+    }
+    public function getUser(){
+        
     }
 }
 //$con = new DBConnect();

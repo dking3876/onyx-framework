@@ -11,6 +11,7 @@
         <![endif]-->
         <link rel="icon" type="image/png" sizes="16x16" href="<?php echo BASE_URL; ?>onyx/assets/images/favicon.ico">
         <?php echo $PageStyles; ?>
+        <script src="<?php echo BASE_URL; ?>onyx/assets/js/Onyx.js" type="text/javascript"></script>
         <?php echo $PageHeaderScripts; ?>
 </head>
     <body class="<?php echo $page; ?>">

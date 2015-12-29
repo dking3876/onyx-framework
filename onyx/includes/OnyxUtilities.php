@@ -6,7 +6,9 @@ final class OnyxUtilities {
     private $folders = array();
     
     public function __construct(){
-        session_start();
+        if(!isset($_SESSION)){
+            session_start();
+        }
         
         $this->folders = array(
             ONYX_PATH.'controller/', 
@@ -31,6 +33,7 @@ final class OnyxUtilities {
     }
     */
     public function OnyxAutoLoader($class){
+        //look into using reflection method to determine if the constructor is public and if not than try the GetInstance method.  will help with the global use of singletons in other classes and extensions
         $folder = strpos($class, 'Onyx') === false? 'data/': 'onyx/';
         
         $type = strpos($class, 'Controller') === false? 'model/' : 'controller/';
@@ -38,19 +41,18 @@ final class OnyxUtilities {
         
         $file = BASE_PATH.$folder.$type.$class.'.php';
         $isInterface = strpos($class, 'I') === 0? true: false;
-        echo $file.'<br/>';
+        //echo $file.'<br/>';
         if( file_exists($file) ){
             include_once $file;
             
         }else if($isInterface){
             
             foreach($this->folders as $dir){
-                echo $dir.$class.'.php<br/>';
+                
                 if(file_exists($dir.$class.'.php')){
-                    echo 'found file<br/>';
+                    include_once $dir.$class.'.php';
                 }
             }
-            echo '</pre>';
             
         }else{
             
@@ -71,12 +73,17 @@ final class OnyxUtilities {
     
     function ReadOnyxFile($file, $settings = null){
         $content = false;
+        $filename = ONYX_PATH.'setting/onyx/'.$file.'.onyx';
+        
         if(file_exists(ONYX_PATH.'setting/onyx/'.$file.'.onyx')){
-            $contents = json_decode();
+            $f = fopen(ONYX_PATH.'setting/onyx/'.$file.'.onyx', 'r');
+            $onyx = fread($f, filesize(ONYX_PATH.'setting/onyx/'.$file.'.onyx'));
+            
+            $content = json_decode($onyx);
         }else if($extension = glob(BASE_PATH.'extensions/*/'.$file.'.onyx')){
             $content = json_decode();
         }
-        if(!$content){
+        if(empty($content)){
             return false;
             //set up to return onyx error object. "no onyx file exists"
         }

@@ -15,7 +15,7 @@ class OnyxConnectionService implements IOnyxCreds {
     
     final protected function __construct(OnyxUtilities $onyxUtilities ){
        //Get from setup onyx file under supported connections
-        $connectionTypes = $onyxUtilities->ReadOnyxFile('connections', 'supportedTypes');
+        $connectionTypes = $onyxUtilities->ReadOnyxFile('connections', 'supportedType');
         $this->ENV = IOnyxCreds::ENV;
         if($this->ENV != 'LIVE'){
             $this->errorDisplay = true;
@@ -25,15 +25,18 @@ class OnyxConnectionService implements IOnyxCreds {
         $pass = IOnyxCreds::PASS;
         $db = IOnyxCreds::DB;
         $this->connect = $connect = IOnyxCreds::CONNECTION;
-        
+        if($connectionTypes == null){
+             echo '<h1>Database Connection Error No valid connection type found</h1>';
+            die();
+        }
         foreach($connectionTypes as $connect){
-            echo $connect;
             //check if onyx supports connection type by checking for the existance of the {connection}Connect.php file and ensure that 
-            if(file_exists(ONYX_PATH . 'settings/database/'.$connect.'Connect.php') && ($this->connect == $connect) ){
-                //require_once ONYX_PATH . 'settings/database/'.$connect.'Connect.php';
+            if(file_exists(ONYX_PATH . 'setting/database/'.$connect.'DBConnect.php') && ($this->connect == $connect) ){
+                require_once ONYX_PATH . 'setting/database/'.$connect.'DBConnect.php';
                 //Build connection string
-                $dbConnect = {$connect}.'DBConnect';
-                $this->connection = $dbconnect::GetInstance( array(
+                $dbConnect = $connect.'DBConnect';
+                
+                $this->connection = $dbConnect::GetInstance( array(
                     $host,
                     $user,
                     $pass,
@@ -41,6 +44,8 @@ class OnyxConnectionService implements IOnyxCreds {
                     $this->ENV,
                     $this->errorDisplay
                 ));
+                //loader the dataloader.php
+                //gonna need to pass this->connection to access the connection 
                 $this->type = $connect;
             }
         }
@@ -53,7 +58,7 @@ class OnyxConnectionService implements IOnyxCreds {
     
     static function GetInstance(){
         if(self::$instance == null){
-            self::$instance = new OnyxConnectionService();
+            self::$instance = new OnyxConnectionService(new OnyxUtilities());
         }
         return self::$instance;
     }

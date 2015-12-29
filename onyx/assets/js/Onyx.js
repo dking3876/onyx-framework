@@ -1,0 +1,5 @@
+function GetCurrentUrl(){
+    
+}
+
+OnyxUrl = GetCurrentUrl();
