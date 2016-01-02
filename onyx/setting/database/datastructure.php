@@ -1,26 +1,58 @@
 <?php
 require_once 'tables/iDataStructure.php';
-
+/**
+ *  
+ *  
+ */
 abstract class DataStructure implements iDataStructure{
+    /**
+     *  
+     *  
+     */
     protected $connection;
+    /**
+     *  
+     */
     protected $table;
     protected $primaryKey;
-    public function __construct(){
-        global $con;
-        $this->connection = $con;
+    /**
+     * [[Description]]
+     */
+    public function __construct(OnyxConnectionService $connection){
+        $this->connection = $connection;
         $this->set_table();
         $this->set_primary_key();
         $this->set_columns();
         $this->table_check();
         $this->column_check();
     }
+    /**
+     * [[Description]]
+     * @return [[Type]] [[Description]]
+     */
     public function get_columns(){
         return $this->set_columns();
     }
+    /**
+     * [[Description]]
+     * @return [[Type]] [[Description]]
+     */
     public function get_table(){
         return $this->table;   
     }
+    /**
+     * [[Description]]
+     */
     private function table_check(){
+        
+        $pack = array(
+            'table' => $this->table,
+            'columns'   => $this->get_columns(),
+            'key'       => $this->primaryKey
+        );
+        $t_result = $this->connection->addTable($pack);
+        echo $t_result;
+        /*
         if(!$this->connection->query_for_table($this->table)){
             $query = " CREATE TABLE IF NOT EXISTS `$this->table` ( ";
             foreach($this->get_columns() as $column){
@@ -38,22 +70,55 @@ abstract class DataStructure implements iDataStructure{
                 echo '</pre>';
             }
         }
+        */
     }
-    
+    /**
+     * [[Description]]
+     */
     private function column_check(){
+        
+        foreach($this->get_columns() as $column){
+            $info = $this->connection
+                ->columnInfo(
+                array(
+                    'table' => $this->table,
+                    'column_name'   => $column->column_name
+                )
+            );
+            if($info->num_rows == 0){
+                $result = $this->connection->addNewColumn($this->table,$this->get_columns(), $column);
+                if($result && method_exists($this, $column->column_name.'_update')){
+                        $this->{$column->column_name.'_update'}();
+                        echo "Your Data sets have been updated to accomodate your new schema";
+                }else if($this->connection->errorDisplay){
+                    echo '<pre class="datastructure error">';
+                    echo "DataStructure has changed: There was an error applying your DataStructure change to your database<br/>". $this->connection->mysqli_error();
+                    echo '</pre>';
+
+                }
+            }
+        }
+        /*
+        $db = $this->db;
         foreach($this->get_columns() as $column){
             $results = $this->connection->customQuery("SELECT * 
             FROM information_schema.COLUMNS 
             WHERE
-            TABLE_NAME = '$this->table' 
+            TABLE_SCHEMA = '$db'
+            AND TABLE_NAME = '$this->table' 
             AND COLUMN_NAME = '$column->column_name'");
             if($results->num_rows == 0){
                 $this->column_add($column);   
             }
         }
+        */
     }
-    
+    /**
+     * [[Description]]
+     * @param [[Type]] $column [[Description]]
+     */
     private function column_add($column){
+        /*
         $pos = ($pos = ArrayUtils::objArraySearch($this->get_columns, 'column_name', $column->column_name)) ? $pos : 0 ;
         $after = $pos ? ' AFTER '.$this->get_columns[$pos -1]->column_name : ' FIRST';
         $result = $this->connection->customQuery("ALTER TABLE $this->table ADD $column->column_name $column->type $column->default ". $after);
@@ -71,5 +136,6 @@ abstract class DataStructure implements iDataStructure{
             echo '</pre>';
             
         }
+        */
     }
 }
