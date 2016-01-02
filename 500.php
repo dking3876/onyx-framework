@@ -1,0 +1,2 @@
+<?php 
+//INTERNAL SERVER ERROR

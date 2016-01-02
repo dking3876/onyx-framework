@@ -15,12 +15,12 @@ class {table-name}_table extends DataStructure{
         $column[] = (object) array(
                     'column_name'    => {column-name},
                         'type'      => {column-type|int()|longtext|blob|ect},
-                        'default'   => {default-value|AUTO_INCREMENT NOT NULL|NULL|DEFAULT {VALUE}|ect},
+                        'default'   => {default-value|AUTO_INCREMENT NOT NULL|NULL|DEFAULT {VALUE}|ect}',
         );
         return $column;
     }
     
-    //{hook}_update is optional for columns that require data updates form existing data in a data set.
+    {hook}_update is optional for columns that require data updates form existing data in a data set.
     
     protected function {column-name}_update(){
         $total = $this->connection->retrieveData($this->table,'*');
