@@ -1,9 +1,9 @@
 <?php
 
-class onyx_settings_table extends DataStructure{
+class onyx_cron_table extends DataStructure{
     
     public function set_table(){
-        $this->table = "onyx_settings";
+        $this->table = "onyx_cron";
     }
     public function get_table(){
         return $this->table;

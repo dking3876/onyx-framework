@@ -1,5 +1,5 @@
 <?php 
-class OnyxConnectionService implements IOnyxCreds {
+class OnyxConnectionService {
     
     static $instance = null;
     
@@ -13,18 +13,19 @@ class OnyxConnectionService implements IOnyxCreds {
     
     private $connect;
     
-    final protected function __construct(OnyxUtilities $onyxUtilities ){
+    final protected function __construct(OnyxUtilities $onyxUtilities, IOnyxCreds $creds ){
        //Get from setup onyx file under supported connections
         $connectionTypes = $onyxUtilities->ReadOnyxFile('connections', 'supportedType');
         $this->ENV = IOnyxCreds::ENV;
         if($this->ENV != 'LIVE'){
             $this->errorDisplay = true;
         }
-        $host =  IOnyxCreds::HOST;
-        $user = IOnyxCreds::USER;
-        $pass = IOnyxCreds::PASS;
-        $db = IOnyxCreds::DB;
-        $this->connect = $connect = IOnyxCreds::CONNECTION;
+        $creds = $creds->getCreds();
+        $host = $creds['host'];
+        $user = $creds['user'];
+        $pass = $creds['pass'];
+        $db = $creds['db'];
+        $this->connect = $connect = $creds['connect'];
         if($connectionTypes == null){
              echo '<h1>Database Connection Error No valid connection type found</h1>';
             die();
@@ -58,7 +59,9 @@ class OnyxConnectionService implements IOnyxCreds {
     
     static function GetInstance(){
         if(self::$instance == null){
-            self::$instance = new OnyxConnectionService(new OnyxUtilities());
+            define('ONYX_ACCESS', true);
+            global $OnyxUtilities;
+            self::$instance = new OnyxConnectionService(/*new OnyxUtilities()*/$OnyxUtilities, OnyxCredentialsService::getInstance());
         }
         return self::$instance;
     }
@@ -74,7 +77,7 @@ class OnyxConnectionService implements IOnyxCreds {
     }
     
     public function addTable($args = array()){
-        $result = $this->connection->createTable($args['table'], $args['fields']);
+        $result = $this->connection->createTable($args['table'], $args['columns'], $args['key']);
         return $result;
     }
     
@@ -105,5 +108,13 @@ class OnyxConnectionService implements IOnyxCreds {
     
     public function deleteSettings($args = array()){
         $result = $this->connection->deleteData();
+    }
+    public function columnInfo($args = array()){
+        $result = $this->connection->columnInfo($args['table'], $args['column_name']);
+        return $result;
+    }
+    public function addNewColumn($table,$columns, $column){
+        $result = $this->connection->addNewColumn($table, $columns, $column);
+        return $result;
     }
 }

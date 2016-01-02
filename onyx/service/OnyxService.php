@@ -77,24 +77,27 @@ final class OnyxService extends OnyxServiceExtention {
      */
     protected function getPath(){
         
-        
+        echo '<pre>';
         $rawUrl = 'http'.(isset($_SERVER['HTTPS'])?'s':'').'://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
         $parsedUrl = parse_url($rawUrl);
     
         $this->parsedUrl = $parsedUrl;
         
-        
-        $path = $this->path = $this->rawArgs = $this->parsedUrlHelper($parsedUrl);
+
+        $this->path = $this->rawArgs = $this->parsedUrlHelper($parsedUrl);
+
         foreach($this->rawArgs as $value){
             $path[] = ucfirst($value);
         }
         
         
-        $this->args = $path;
+        $this->args = isset($path)? $path : array();
         if(isset($path[0])){
-            if($path[0] == "Onyx"){
+            if(strtolower($path[0]) == "onyx"){
                 $this->base = ONYX_PATH;
+
                 $this->controller = $path[0].(isset($path[1])? $path[1] : 'Default').'Controller';
+                
                 $this->viewData(array('page' => $path[0].(isset($path[1])? $path[1] : 'index')));
             }else{
                 $this->viewData(array('page' => $path[0]));

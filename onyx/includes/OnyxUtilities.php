@@ -54,6 +54,22 @@ final class OnyxUtilities {
                 }
             }
             
+        }else if(strpos($class, '_table') !== false){
+            $found = false;
+            $folders = array(
+                $this->folders[5],
+                $this->folders[6],
+                $this->folders[7],
+                $this->folders[8],
+                $this->folders[9]
+                );
+            foreach($folders as $dir){
+                
+                if(file_exists($dir.$class.".php")){
+                    $found = true;
+                    include_once $dir.$class.".php";   
+                }
+            }
         }else{
             
             $locations = glob(BASE_PATH.'extensions/*/'.$type.$class.'.php');
@@ -91,6 +107,15 @@ final class OnyxUtilities {
             return $content;
         }
         return return_Onyx_file_array($content, $settings);   
+    }
+    
+    public static function objArraySearch($array,$index,$find){
+            foreach($array as $key => $value) {
+                if($value->{$index} == $find){
+                    return $key;
+                }
+            }
+            return null;
     }
 }
 $OnyxUtilities = new OnyxUtilities();

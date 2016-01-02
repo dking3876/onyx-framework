@@ -6,20 +6,21 @@
 *
 */
 class MySQLDBConnect implements IOnyxConnection{
-    private $host;
-    private $user;
-    private $pass;
+    //private $host;
+    //private $user;
+    //private $pass;
     private $db;
     protected $connection;    
     static $instance = null;
+    private $errorDisplay = true;
     
     //constuct the db connection
     public function __construct($args){
-        $this->host = $args[0];
-        $this->user = $args[1];
-        $this->pass = $args[2];
+        //$this->host = $args[0];
+        //$this->user = $args[1];
+        //$this->pass = $args[2];
         $this->db = $args[3];
-        $this->connection = $this->hook();
+        $this->connection = $this->hook($args);
     }
     static function GetInstance($args){
         if(self::$instance == null){
@@ -28,8 +29,12 @@ class MySQLDBConnect implements IOnyxConnection{
         return self::$instance;
     }
     //make the database connection
-    private function hook(){
-        $hook = mysqli_connect($this->host, $this->user, $this->pass, $this->db);
+    private function hook($args){
+        $host = $args[0];
+        $user = $args[1];
+        $pass = $args[2];
+        $db = $args[3];
+        $hook = mysqli_connect($host, $user, $pass, $db);
         if(!$hook){
             die('Error Connecting to the Database'.mysqli_connect_errno().PHP_EOL);
         }
@@ -38,6 +43,10 @@ class MySQLDBConnect implements IOnyxConnection{
     public function idle_query($sql){
         $result = $this->connection->query($sql);
         //echo mysqli_errno($this->connection);
+        return $result;
+    }
+    public function customQuery($sql){
+        $result = $this->connection->query($sql);
         return $result;
     }
     //data retrieval statment $conditions must be an array of conditions.
@@ -134,21 +143,18 @@ class MySQLDBConnect implements IOnyxConnection{
         
     }
     //create table $fields must be array
-    /*Standard fields are Vid, version, description, name, requires, tested, last_updated, download_link, code_name, features, {array $fields list of required fields for use with the prorietry cms update system} */
+    /*Standard fields are Vid, version, description, name, requires, tested, last_updated, download_link, code_name, features, {array $fields list of required fields for use with the prorietry cms update system} 
     public function createTable($table, $fields = NULL){
         if(!is_array($fields)){
             echo 'DBConnect Error: Your statement is malformed--> for createTable($table, $fields)';
             return;
         }
     }
+    */
     public function schema_connection($table){
         $result = $this->connection->query("SELECT * FROM $table LIMIT 0");
         return $result->fetch_fields();
         
-    }
-    public function customQuery($sql){
-        $result = $this->connection->query($sql);
-        return $result;
     }
     public function mysqli_error(){
         return $this->connection->error;
@@ -169,6 +175,47 @@ class MySQLDBConnect implements IOnyxConnection{
     }
     public function getUser(){
         
+    }
+    public function createTable($table, $columns, $key){
+        $message = '';
+        if(!$this->tableDetails($table)){
+            $query = " CREATE TABLE IF NOT EXISTS `$table` ( ";
+            foreach($columns as $column){
+                $query .= "$column->column_name $column->type $column->default , ";
+            }
+            $query .= "PRIMARY KEY ( `{$key}` ) )";
+            $result = $this->customQuery($query);
+            if($result){  
+                $message .= '<pre class="datastructure warning">';
+                $message .= "DataStructure has changed: ADDED  '{$table}' Table to Database<br/> ";
+                $message .= '</pre>';
+            }else if($this->errorDisplay){
+                $message .= '<pre class="datastructure error">';
+                $message .= "DataStructure has changed: There was an error applying your DataStructure change to your database<br/>". $this->connection->mysqli_error();
+                $message .= '</pre>';
+            }
+            return $message;
+        }
+    }
+    public function tableDetails($table){
+        return $this->connection->query("DESCRIBE `$table`");
+    }
+    
+    public function columnInfo($table, $column_name){
+        $results = $this->customQuery("SELECT * 
+            FROM information_schema.COLUMNS 
+            WHERE
+            TABLE_SCHEMA = '$this->db'
+            AND TABLE_NAME = '$>table' 
+            AND COLUMN_NAME = '$column_name'");
+        return $results;
+    }
+    
+    public function addNewColumn($table, $columns, $column){
+        $pos = ($pos = OnyxUtilities::objArraySearch($columns, 'column_name', $column->column_name)) ? $pos : 0 ;
+        $after = $pos ? ' AFTER '.$columns[$pos -1]->column_name : ' FIRST';
+        $result = $this->customQuery("ALTER TABLE $table ADD $column->column_name $column->type $column->default ". $after);
+        return $result;
     }
 }
 //$con = new DBConnect();
