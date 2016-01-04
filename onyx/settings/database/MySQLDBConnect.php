@@ -5,7 +5,7 @@
 * DBConnect class for use with the Brafton Update API for plugins and modules
 *
 */
-class MySQLDBConnect implements IOnyxConnection{
+class MySQLDBConnect extends _DBConnect implements IOnyxConnection{
     //private $host;
     //private $user;
     //private $pass;
@@ -15,13 +15,14 @@ class MySQLDBConnect implements IOnyxConnection{
     private $errorDisplay = true;
     
     //constuct the db connection
+    /*
     public function __construct($args){
         //$this->host = $args[0];
         //$this->user = $args[1];
         //$this->pass = $args[2];
         $this->db = $args[3];
         $this->connection = $this->hook($args);
-    }
+    */
     static function GetInstance($args){
         if(self::$instance == null){
           self::$instance = new self($args);
@@ -29,7 +30,7 @@ class MySQLDBConnect implements IOnyxConnection{
         return self::$instance;
     }
     //make the database connection
-    private function hook($args){
+    protected function hook($args){
         $host = $args[0];
         $user = $args[1];
         $pass = $args[2];

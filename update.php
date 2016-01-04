@@ -54,4 +54,4 @@ class OnyxUpateCore {
         }
     }
 }
-OnyxUpateCore::getInstance();
+//OnyxUpateCore::getInstance();

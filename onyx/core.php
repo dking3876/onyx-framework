@@ -21,6 +21,9 @@ if(!file_exists(BASE_PATH . 'settings/database/IOnyxCreds.php')){
         header("LOCATION:".$_SESSION['Onyx_install_base_url']."Onyx/install/?installer");
     }
 }else if( file_exists(BASE_PATH . 'settings/database/IOnyxCreds.php') && !isset($_GET['installer']) ){
-    include_once ONYX_PATH . 'setting/dataLoader.php';
+    include_once ONYX_PATH . 'settings/dataLoader.php';
+}
+if(file_exists(BASE_PATH . 'settings/database/IonyxAuthenticate.php')){
+    include_once ONYX_PATH . 'service/OnyxAuthenticateService.php';
 }
 OnyxAppController::GetInstance();

@@ -77,7 +77,7 @@ final class OnyxService extends OnyxServiceExtention {
      */
     protected function getPath(){
         
-        echo '<pre>';
+        
         $rawUrl = 'http'.(isset($_SERVER['HTTPS'])?'s':'').'://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
         $parsedUrl = parse_url($rawUrl);
     

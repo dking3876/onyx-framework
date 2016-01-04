@@ -32,8 +32,8 @@ class OnyxConnectionService {
         }
         foreach($connectionTypes as $connect){
             //check if onyx supports connection type by checking for the existance of the {connection}Connect.php file and ensure that 
-            if(file_exists(ONYX_PATH . 'setting/database/'.$connect.'DBConnect.php') && ($this->connect == $connect) ){
-                require_once ONYX_PATH . 'setting/database/'.$connect.'DBConnect.php';
+            if(file_exists(ONYX_PATH . 'settings/database/'.$connect.'DBConnect.php') && ($this->connect == $connect) ){
+                require_once ONYX_PATH . 'settings/database/'.$connect.'DBConnect.php';
                 //Build connection string
                 $dbConnect = $connect.'DBConnect';
                 

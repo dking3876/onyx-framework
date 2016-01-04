@@ -16,8 +16,8 @@ final class OnyxUtilities {
             ONYX_PATH.'model/', 
             ONYX_PATH.'service/', 
             ONYX_PATH.'setting/', 
-            ONYX_PATH.'setting/database/', 
-            ONYX_PATH.'setting/database/tables/',
+            ONYX_PATH.'settings/database/', 
+            ONYX_PATH.'settings/database/tables/',
             BASE_PATH.'settings/database/', 
             BASE_PATH.'settings/database/tables/', 
             BASE_PATH.'settings/', 
@@ -80,6 +80,13 @@ final class OnyxUtilities {
             }
             
         }
+        if(!class_exists($class)){
+            foreach($this->folders as $dir){
+                if(file_exists($dir.$class.".php")){
+                    include_once $dir.$class.".php";   
+                }
+            }
+        }
         /* This doesn't work for interfaces  need to use interface_exists() however need to figure out a good switch statement for use here.*/
         if( !class_exists($class) && !$isInterface ){
             //Throw and error
@@ -89,11 +96,11 @@ final class OnyxUtilities {
     
     function ReadOnyxFile($file, $settings = null){
         $content = false;
-        $filename = ONYX_PATH.'setting/onyx/'.$file.'.onyx';
+        $filename = ONYX_PATH.'settings/onyx/'.$file.'.onyx';
         
-        if(file_exists(ONYX_PATH.'setting/onyx/'.$file.'.onyx')){
-            $f = fopen(ONYX_PATH.'setting/onyx/'.$file.'.onyx', 'r');
-            $onyx = fread($f, filesize(ONYX_PATH.'setting/onyx/'.$file.'.onyx'));
+        if(file_exists(ONYX_PATH.'settings/onyx/'.$file.'.onyx')){
+            $f = fopen(ONYX_PATH.'settings/onyx/'.$file.'.onyx', 'r');
+            $onyx = fread($f, filesize(ONYX_PATH.'settings/onyx/'.$file.'.onyx'));
             
             $content = json_decode($onyx);
         }else if($extension = glob(BASE_PATH.'extensions/*/'.$file.'.onyx')){

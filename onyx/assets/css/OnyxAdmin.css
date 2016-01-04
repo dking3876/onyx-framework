@@ -131,11 +131,11 @@ body {
   padding: 10px;
 }
 /* line 108, sass/OnyxAdmin.scss */
-body.Onyxinstall {
+body.OnyxInstall {
   color: #fff;
 }
 /* line 110, sass/OnyxAdmin.scss */
-body.Onyxinstall:before {
+body.OnyxInstall:before {
   position: absolute;
   top: 0;
   left: 0;
@@ -148,18 +148,18 @@ body.Onyxinstall:before {
   z-index: -1;
 }
 /* line 122, sass/OnyxAdmin.scss */
-body.Onyxinstall:after {
+body.OnyxInstall:after {
   content: "";
   clear: both;
   display: block;
 }
 /* line 127, sass/OnyxAdmin.scss */
-body.Onyxinstall #db, body.Onyxinstall #lib, body.Onyxinstall #write {
+body.OnyxInstall #db, body.OnyxInstall #lib, body.OnyxInstall #write {
   position: relative;
   padding: 10px 25px;
 }
 /* line 130, sass/OnyxAdmin.scss */
-body.Onyxinstall #db .status, body.Onyxinstall #lib .status, body.Onyxinstall #write .status {
+body.OnyxInstall #db .status, body.OnyxInstall #lib .status, body.OnyxInstall #write .status {
   width: 45px;
   height: 45px;
   display: block;
@@ -172,10 +172,10 @@ body.Onyxinstall #db .status, body.Onyxinstall #lib .status, body.Onyxinstall #w
 }
 
 /* line 145, sass/OnyxAdmin.scss */
-body.Onyxinstall .welcome-message {
+body.OnyxInstall .welcome-message {
   width: 35%;
 }
 /* line 148, sass/OnyxAdmin.scss */
-body.Onyxinstall .health-check {
+body.OnyxInstall .health-check {
   width: 60%;
 }

@@ -60,7 +60,9 @@ abstract class OnyxController implements IOnyxController {
             }
             echo "\r\n";
             include_once $path . "view/{$view}.html.php";
-        }else{ echo "couldn't find $view View";}
+        }else{ 
+            echo "couldn't find $view View";
+        }
         //Throw error if file doesn't exists
     }
     
@@ -74,7 +76,9 @@ abstract class OnyxController implements IOnyxController {
             //include_once $base . "model/{$model}.php";
             $tmpModel = new $model();
             return $tmpModel;
-        }else{ echo "couldnt' fine $model Model"; }
+        }else{
+            echo "couldnt' fine $model Model";
+        }
         //throw error or just catch and log???
         //return false;
     }
@@ -89,7 +93,9 @@ abstract class OnyxController implements IOnyxController {
             }else{
                 die('You are trying to load the Controller Class '.$controller .' without loading the proper Controller scripts');
             }
-        }else{ echo "couldn't find $controller Controller";}
+        }else{ 
+            echo "couldn't find $controller Controller";
+        }
         //Throw error if file doesn't exists
         return $tmpController;
     }
@@ -151,11 +157,18 @@ abstract class OnyxController implements IOnyxController {
     }
     
     final public function OnyxAJAX(){
-        if(array_search('OnyxAJAX', $this->Onyx->args) === false){
+        $check = array();
+        foreach($this->Onyx->args as $arg){
+            $check[] = strtolower($arg);
+        }
+        if(array_search('onyxajax', $check) === false || get_class($this) == 'OnyxAppController'){
+           
             return;
         }
+        
         //Get position of OnyxAJAX in array and use the next position of the array for the actual function to run
-        $i = 0;
+        $i = 1;
+        var_dump($this->Onyx->args);
         $method = $this->Onyx->args[$i];
         $this->$method();
         die();
