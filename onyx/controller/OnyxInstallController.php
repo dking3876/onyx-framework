@@ -9,7 +9,7 @@ class OnyxInstallController extends OnyxController {
         $this->installationStage = isset($_GET['installer']) && ($_GET['installer'] != '' || $_GET['installer'] != null)? $_GET['installer'] : 'StartInstaller';
         $this->authKey = isset($_GET['auth']) ? $_GET['auth'] : '';
         $this->action = $method = "Onyx{$this->installationStage}";
-        $this->model = $this->model();
+        //$this->model = $this->model();
         $adminCSS = array(
             'type'  => 'external',
             'title' => 'OnyxMasterCSS',
@@ -24,15 +24,9 @@ class OnyxInstallController extends OnyxController {
         $this->model->headerScripts('jquery');
         $this->model->headerScripts($installerjs, $path);
         /*$this->model->styles();
-        $this->model->styles();
-        $this->model->styles();
-        $this->model->styles();
-        $this->model->headerScripts();
-        $this->model->headerScripts();
-        $this->model->headerScripts();
         $this->model->footerScripts();
         */
-
+        $this->pageTitle = "OnyxInstaller";
         $this->$method();
     }
     
@@ -40,6 +34,7 @@ class OnyxInstallController extends OnyxController {
         $auth = uniqid();
         $this->Onyx->viewData(array('auth' => $auth));
         $this->model->CheckSystemHealth();
+        
         $this->renderPage('welcome.install');
         
     }

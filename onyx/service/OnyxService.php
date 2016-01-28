@@ -56,6 +56,10 @@ final class OnyxService extends OnyxServiceExtention {
     public $OnyxIntercepts;
     
     static $instance = null;
+    
+    static $controllers_loaded = 0;
+    
+    static $page_loaded = false;
     /**
      * [[Description]]
      */

@@ -3,7 +3,7 @@ abstract class OnyxController implements IOnyxController {
     
     public $Onyx;
     
-    public $model;
+    public $model = null;
     
     public $action;
     
@@ -11,9 +11,15 @@ abstract class OnyxController implements IOnyxController {
     
     private $html_footer = null;
     
+    public $pageTitle = "";
+    
+    public $pageMeta = array();
+    
+    
     final protected function __construct($service = null){
         $this->Onyx = &OnyxService::GetInstance();
-        
+        ++OnyxService::controllers_loaded;
+        $this->model = $this->defaultModel();
         $this->OnyxAJAX();
         $this->main($service = null);
     }
@@ -82,10 +88,26 @@ abstract class OnyxController implements IOnyxController {
         //throw error or just catch and log???
         //return false;
     }
+    final public function defaultModel(){
+        if($this->model != null){
+            return $this->model;   
+        }
+        $base = $this->Onyx->base;
+        $model = $this->Onyx->controller;
+        $model = str_replace("Controller", "Model", $model);
+        if(file_exists($base . "model/{$model}.php")){
+            //include_once $base . "model/{$model}.php";
+            $tmpModel = new $model();
+            return $tmpModel;
+        }
+        return null;
+    }
     final public function controller($controller, $path = null){
         $tmpController = null;
         $base = $path != null? $path : $this->Onyx->base;
-        
+        if(strpos(strtolower($controller), "onyx") !== false && $base != ONYX_PATH){
+            $base = ONYX_PATH;   
+        } 
         if(file_exists($base . "controller/{$controller}.php")){
             //include_once $base . "controller/{$controller}.php";
             if(class_exists($controller)){
@@ -95,6 +117,7 @@ abstract class OnyxController implements IOnyxController {
             }
         }else{ 
             echo "couldn't find $controller Controller";
+            //header("HTTP/1.0 404 Not Found");
         }
         //Throw error if file doesn't exists
         return $tmpController;
@@ -111,7 +134,7 @@ abstract class OnyxController implements IOnyxController {
             }
         $PageHeaderScripts = $this->model->renderHeaderScripts();
         $PageStyles = $this->model->renderStyles();
-        $PageTitle = '';
+        $PageTitle = $this->pageTitle  ;
         $PageMeta = '';
         if(file_exists($base .  "view/{$header}.html.php")){
             include_once $base .  "view/{$header}.html.php";
@@ -165,12 +188,27 @@ abstract class OnyxController implements IOnyxController {
            
             return;
         }
+        echo "<pre>";
         
         //Get position of OnyxAJAX in array and use the next position of the array for the actual function to run
-        $i = 1;
-        var_dump($this->Onyx->args);
-        $method = $this->Onyx->args[$i];
+        $functionKey = function($check){
+            $keyVal = 0;
+                foreach($check as $key => $value){
+                    if($value == "onyxajax"){
+                        
+                       $keyVal = ++$key;
+                    }
+                }
+            return $check[$keyVal];
+        };
+
+        $method = $functionKey($check);
         $this->$method();
         die();
     }
+    
+    final public function setting($key, $value = null){
+        return $this->model->setting($key, $value);
+    }
+    
 }

@@ -14,7 +14,7 @@ class DefaultController extends OnyxController{
      * [[Description]]
      */
     public function main(){
-        $this->model = $this->model('WelcomeModel');
-        $this->renderPage('welcome');
+        echo $this->setting("first_setting");
+        $this->renderPage('default');
     }
 }

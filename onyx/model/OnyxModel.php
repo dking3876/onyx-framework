@@ -159,5 +159,45 @@ class OnyxModel {
         );
         return $array;
     }
+    public function setting($key, $value = null){
+        $args = array(
+            'table' => 'onyx_settings',
+            'data'  => '*',
+            'conditions'    => array(
+                'WHERE' =>  array(
+                    "setting = '$key'"
+                    )
+                )
+            );
+        $result = $this->connection->retrieveData($args);
+        if($result){
+            return $result[0]["value"];
+        }
+        else{
+            return $value;
+        }
+    }
+    
+    public function updateSetting($key, $value){
+        $args = array(
+            'table' => 'onyx_settings',
+            'data'  => array(
+                'value' => $value
+            ),
+            'conditions'    => array(
+                'WHERE' =>  array(
+                    "setting = '$key'"
+                    )
+                )
+            );
+        $result = $this->connection->updateData($args);
+        //Handle a false 
+        if($result){
+            return $result;
+        }
+        else{
+            
+        }
+    }
     
 }

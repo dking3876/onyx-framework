@@ -1,5 +1,5 @@
 <?php 
-class WelcomeModel extends OnyxModel {
+class DefaultModel extends OnyxModel {
     
     public function main(){ 
         

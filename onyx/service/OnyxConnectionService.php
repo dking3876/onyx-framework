@@ -117,4 +117,15 @@ class OnyxConnectionService {
         $result = $this->connection->addNewColumn($table, $columns, $column);
         return $result;
     }
+    public function retrieveData($args = array()){
+        $result = $this->connection->retrieveData($args['table'], $args['data'], (isset($args['conditions'])? $args['conditions'] : null) );
+        return $result;
+    }
+    public function updateData($args = array()){
+        $result = $this->connection->updateData($args['table'], $args['data'], $args['conditions']);
+        if(!$result){
+            var_dump($this->connection->mysqli_error());
+        }
+        return $result;
+    }
 }
