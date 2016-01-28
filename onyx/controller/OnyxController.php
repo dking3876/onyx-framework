@@ -141,7 +141,9 @@ abstract class OnyxController implements IOnyxController {
         $PageHeaderScripts = function(){
             echo $this->model->renderHeaderScripts();
         };
-        $PageStyles = $this->model->renderStyles();
+        $PageStyles = function(){
+            echo $this->model->renderStyles();
+        };
         $PageTitle = $this->pageTitle  ;
         $PageMeta = '';
         if(file_exists($base .  "view/{$header}.html.php")){

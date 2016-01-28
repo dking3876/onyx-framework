@@ -60,11 +60,17 @@ final class OnyxService extends OnyxServiceExtention {
     public $controllers_loaded = 0;
     
     static $page_loaded = false;
+    
+    public static $LoggedScripts = array();
+    
+    public static $LoggedStyles = array();
     /**
      * [[Description]]
      */
     private function __construct(){
         $this->getPath();
+        global $onyxAuthenticate;
+        $this->OnyxAuthenticate = $onyxAuthenticate;
     }    
     /**
      * [[Description]]

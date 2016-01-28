@@ -8,7 +8,7 @@
         <!-- META DATA -->
         
         <!-- LINKS -->
-        
+        <?php $PageStyles(); ?>
         <!-- SCRIPTS -->
         <?php $PageHeaderScripts(); ?>
     </head>

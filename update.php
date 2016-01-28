@@ -17,7 +17,6 @@ class OnyxUpateCore {
 	}
     private function __construct(){  
         $this->zip = new ZipArchive;
-        
         return $this->status;
     }
     

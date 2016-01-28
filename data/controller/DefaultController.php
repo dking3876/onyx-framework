@@ -15,13 +15,23 @@ class DefaultController extends OnyxController{
      */
     public function main(){
         //echo $this->setting("first_setting");
-        $this->model->headerScripts('jquery');
-        $this->model->headerScripts('bootstrap');
+        $this->model->headerScripts('jquery', 'onyx');
+        $this->model->headerScripts('bootstrap', 'onyx');
         $this->model->headerScripts(array(
             'name'  => 'testingscript',
             'file'  => 'test.js',
             'type'  => 'external'
             ));
+        $this->model->styles(array(
+            'name'  => 'welcome',
+            'file'  => 'welcome.css',
+            'type'  => 'external'
+            ));
+        $this->model->styles(array(
+            'name'  => 'reset',
+            'file'  => 'html5reset.css',
+            'type'  => 'external'
+            ), 'onyx');
         $this->renderPage('default');
     }
 }
