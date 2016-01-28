@@ -14,7 +14,14 @@ class DefaultController extends OnyxController{
      * [[Description]]
      */
     public function main(){
-        echo $this->setting("first_setting");
+        //echo $this->setting("first_setting");
+        $this->model->headerScripts('jquery');
+        $this->model->headerScripts('bootstrap');
+        $this->model->headerScripts(array(
+            'name'  => 'testingscript',
+            'file'  => 'test.js',
+            'type'  => 'external'
+            ));
         $this->renderPage('default');
     }
 }

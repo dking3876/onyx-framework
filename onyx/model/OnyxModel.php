@@ -155,6 +155,10 @@ class OnyxModel {
             'onyx'  => array(
                 'headerScripts',
                 'Onyx.js'
+                ),
+            'bootstrap' => array(
+                'headerScripts',
+                'bootstrap.min.js'
                 )
         );
         return $array;

@@ -57,7 +57,7 @@ final class OnyxService extends OnyxServiceExtention {
     
     static $instance = null;
     
-    static $controllers_loaded = 0;
+    public $controllers_loaded = 0;
     
     static $page_loaded = false;
     /**
@@ -99,13 +99,20 @@ final class OnyxService extends OnyxServiceExtention {
         if(isset($path[0])){
             if(strtolower($path[0]) == "onyx"){
                 $this->base = ONYX_PATH;
-
-                $this->controller = $path[0].(isset($path[1])? $path[1] : 'Default').'Controller';
-                
+                if(isset($path[1]) && strtolower($path[1]) == 'onyxajax'){
+                    $this->controller = $path[0].'DefaultController';
+                }else{
+                    $this->controller = $path[0].(isset($path[1])? $path[1] : 'Default').'Controller';
+                }
                 $this->viewData(array('page' => $path[0].(isset($path[1])? $path[1] : 'index')));
             }else{
+                
                 $this->viewData(array('page' => $path[0]));
-                $this->controller = $path[0].'Controller';
+                if(strtolower($path[0]) == 'onyxajax'){
+                    $this->controller = 'DefaultController';
+                }else{
+                    $this->controller = $path[0].'Controller';
+                }
             }
         }else{
             $this->controller = 'DefaultController';
