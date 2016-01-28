@@ -17,16 +17,20 @@ class DefaultController extends OnyxController{
         //echo $this->setting("first_setting");
         $this->model->headerScripts('jquery', 'onyx');
         $this->model->headerScripts('bootstrap', 'onyx');
-        //$this->model->headerScripts(array(
+        /*
+        $this->model->headerScripts(array(
             'name'  => 'testingscript',
             'file'  => 'test.js',
             'type'  => 'external'
             ));
-        //$this->model->styles(array(
+            */
+        /*
+        $this->model->styles(array(
             'name'  => 'welcome',
             'file'  => 'welcome.css',
             'type'  => 'external'
             ));
+            */
         $this->model->styles(array(
             'name'  => 'reset',
             'file'  => 'html5reset.css',
