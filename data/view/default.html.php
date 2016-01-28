@@ -1,3 +1,3 @@
 <div class="container">
-        <h1>My Title</h1>
+        <h1>Default Page</h1>
 </div>
