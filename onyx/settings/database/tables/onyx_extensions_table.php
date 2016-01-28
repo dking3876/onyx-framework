@@ -18,12 +18,17 @@ class onyx_extensions_table extends DataStructure{
                         'default'   => "AUTO_INCREMENT NOT NULL"
         );
         $column[] = (object) array(
-                    'column_name'    => "setting",
+                    'column_name'    => "extension",
                         'type'      => "varchar(100)",
                         'default'   => "NOT NULL"
         );
         $column[] = (object) array(
-                    'column_name'    => "value",
+                    'column_name'    => "path",
+                        'type'      => "varchar(250)",
+                        'default'   => "NOT NULL"
+        );
+        $column[] = (object) array(
+                    'column_name'    => "settings",
                         'type'      => "blob",
                         'default'   => "NOT NULL"
         );

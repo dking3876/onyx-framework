@@ -10,7 +10,7 @@ class OnyxModel {
     
     public $footerScripts;
     
-    
+    public $metaData;
     //static $instance = null;
     public $Onyx;
 
@@ -33,6 +33,24 @@ class OnyxModel {
      * @param string [$plugin         = null] If plugin is specified in path identify the extention folder
      */
     public function styles($file, $path = null, $plugin = null){
+
+        if( !isset( $file['name'] ) || !isset( $file['file'] ) ){
+            return false;
+        }
+        if( array_search($file['name'], OnyxService::$LoggedStyles) !== false){
+
+            return false;   
+        }else{
+            array_push(OnyxService::$LoggedStyles, $file['name'] );
+
+        }
+        array_merge(
+            array(
+                'name'  => '',
+                'type'  => '',
+                'title' => '',
+                'rel'   => 'stylesheet'
+                ), $file );
         if(is_array($file) && (isset($file['type']) && $file['type'] == 'inline')){
             $this->buildInlineStyle($file);
         }else if(is_array($file)){
@@ -69,6 +87,33 @@ class OnyxModel {
      * @param [[Type]] [$plugin = null] [[Description]]
      */
     private function scriptSwitch($file, $path, $plugin = null, $type){
+        if(!is_array($file) && array_key_exists($file, $this->GetSupportedScripts())){
+            
+            $exists = $this->GetSupportedScripts();          
+            $file = array(
+                'name'  => $file,
+                'file'  => $exists[$file][1]
+                );
+
+            
+            
+            $type = $exists[$file['name']][0];
+        }
+        if( !isset( $file['name'] ) || !isset( $file['file'] ) ){
+            return false;
+        }
+        if( array_search($file['name'], OnyxService::$LoggedScripts) !== false){
+            return false;   
+        }else{
+            array_push(OnyxService::$LoggedScripts, $file['name'] );
+        }
+        array_merge(
+            array(
+                'name'  => '',
+                'type'  => '',
+                'title' => '',
+                'rel'   => 'stylesheet'
+                ), $file );
         $path = BASE_URL.($path != null ? $path.'/' : '').($plugin != null ? $plugin.'/' :'');
         $scriptString;
         if(is_array($file) && (isset($file['type']) && $file['type'] == 'inline')){
@@ -91,8 +136,9 @@ class OnyxModel {
     public function renderStyles(){
         $styles = '';
         if($this->styles){
+            $i = 0;
             foreach($this->styles as $style){
-                $styles .= $style;
+                $styles .= ( $i>0 ? "\t" : "").$style;
             }
         }
         return $styles;
@@ -104,8 +150,10 @@ class OnyxModel {
     public function renderHeaderScripts(){
         $headerScripts = '';
         if($this->headerScripts){
+            $i = 0;
             foreach($this->headerScripts as $script){
-                $headerScripts .= $script;
+                $headerScripts .= ( $i>0 ? "\t" : "").$script;
+                ++$i;
             }
         }
         return $headerScripts;
@@ -155,9 +203,68 @@ class OnyxModel {
             'onyx'  => array(
                 'headerScripts',
                 'Onyx.js'
+                ),
+            'bootstrap' => array(
+                'headerScripts',
+                'bootstrap.min.js'
                 )
         );
         return $array;
+    }
+    private function GetSupportedStyles(){
+        $array = array(
+            'reset' => array(
+                'reset.css'
+                )
+        );
+        return $array;
+    }
+    public function setting($key, $value = null){
+        $args = array(
+            'table' => 'onyx_settings',
+            'data'  => '*',
+            'conditions'    => array(
+                'WHERE' =>  array(
+                    "setting = '$key'"
+                    )
+                )
+            );
+        $result = $this->connection->retrieveData($args);
+        if($result){
+            return $result[0]["value"];
+        }
+        else{
+            return $value;
+        }
+    }
+    
+    public function updateSetting($key, $value){
+        $args = array(
+            'table' => 'onyx_settings',
+            'data'  => array(
+                'value' => $value
+            ),
+            'conditions'    => array(
+                'WHERE' =>  array(
+                    "setting = '$key'"
+                    )
+                )
+            );
+        $result = $this->connection->updateData($args);
+        //Handle a false 
+        if($result){
+            return $result;
+        }
+        else{
+            
+        }
+    }
+    
+    public function addMeta($metaEntry){
+        if(is_array($metaEntry)){
+            $meta = sprintf('<meta name="%s" content="%s" />', $metaEntry['name'], $metaEntry['content']);
+        }
+        return false;
     }
     
 }

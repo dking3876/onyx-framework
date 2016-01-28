@@ -1,9 +1,9 @@
 <?php
 
-class onyx_cron_table extends DataStructure{
+class onyx_log_table extends DataStructure{
     
     public function set_table(){
-        $this->table = "onyx_cron";
+        $this->table = "onyx_log";
     }
     public function get_table(){
         return $this->table;
@@ -18,13 +18,18 @@ class onyx_cron_table extends DataStructure{
                         'default'   => "AUTO_INCREMENT NOT NULL"
         );
         $column[] = (object) array(
-                    'column_name'    => "setting",
-                        'type'      => "varchar(100)",
+                    'column_name'    => "severity",
+                        'type'      => "int(10)",
                         'default'   => "NOT NULL"
         );
         $column[] = (object) array(
-                    'column_name'    => "value",
+                    'column_name'    => "error",
                         'type'      => "blob",
+                        'default'   => "NOT NULL"
+        );
+        $column[] = (object) array(
+                    'column_name'    => "type",
+                        'type'      => "varchar(100)",
                         'default'   => "NOT NULL"
         );
         return $column;

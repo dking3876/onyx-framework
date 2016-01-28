@@ -1,5 +1,5 @@
 <?php
-class OnyxDashboardModel extends OnyxModel{
+class OnyxAdminModel extends OnyxModel{
     public function main(){
         
     }

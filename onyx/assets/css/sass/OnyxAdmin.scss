@@ -105,7 +105,7 @@ html{
 }
 body{
     padding:10px;
-    &.Onyxinstall{
+    &.OnyxInstall{
     color:#fff;
         &:before{
             position:absolute;
@@ -141,7 +141,7 @@ body{
         }
     }
 }
-body.Onyxinstall{
+body.OnyxInstall{
     .welcome-message{
         width:35%;
     }

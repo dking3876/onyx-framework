@@ -1,2 +1,3 @@
-<?php 
-echo 'Welcome to using Onyx Framework';
+<div class="container">
+        <h1>Welcome Page</h1>
+</div>

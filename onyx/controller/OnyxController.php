@@ -3,7 +3,7 @@ abstract class OnyxController implements IOnyxController {
     
     public $Onyx;
     
-    public $model;
+    public $model = null;
     
     public $action;
     
@@ -11,9 +11,14 @@ abstract class OnyxController implements IOnyxController {
     
     private $html_footer = null;
     
+    public $pageTitle = "";
+    
+    public $pageMeta = array();
+    
+    
     final protected function __construct($service = null){
         $this->Onyx = &OnyxService::GetInstance();
-        
+        $this->model = $this->defaultModel();
         $this->OnyxAJAX();
         $this->main($service = null);
     }
@@ -60,10 +65,14 @@ abstract class OnyxController implements IOnyxController {
             }
             echo "\r\n";
             include_once $path . "view/{$view}.html.php";
-        }else{ echo "couldn't find $view View";}
+        }else{ 
+            echo "couldn't find $view View";
+        }
         //Throw error if file doesn't exists
     }
-    
+    final public function LoadModel($model, $path = null){
+        return $this->model($model, $path);   
+    }
     final public function model($model = null, $path = null){
         $base = $path ? $path : $this->Onyx->base;
         if($model === null){
@@ -74,22 +83,48 @@ abstract class OnyxController implements IOnyxController {
             //include_once $base . "model/{$model}.php";
             $tmpModel = new $model();
             return $tmpModel;
-        }else{ echo "couldnt' fine $model Model"; }
+        }else{
+            echo "couldnt' fine $model Model";
+        }
         //throw error or just catch and log???
         //return false;
+    }
+    final public function defaultModel(){
+        if($this->model != null){
+            return $this->model;   
+        }
+        $base = $this->Onyx->base;
+        $model = $this->Onyx->controller;
+        $model = str_replace("Controller", "Model", $model);
+        if(file_exists($base . "model/{$model}.php")){
+            //include_once $base . "model/{$model}.php";
+            $tmpModel = new $model();
+            return $tmpModel;
+        }
+        return null;
+    }
+    final public function LoadController($controller, $path = null){
+        return $this->controller($controller, $path);
     }
     final public function controller($controller, $path = null){
         $tmpController = null;
         $base = $path != null? $path : $this->Onyx->base;
-        
+        if(strpos(strtolower($controller), "onyx") !== false && $base != ONYX_PATH){
+            $base = ONYX_PATH;   
+        } 
         if(file_exists($base . "controller/{$controller}.php")){
             //include_once $base . "controller/{$controller}.php";
             if(class_exists($controller)){
+                $this->Onyx->controllers_loaded++;
                 $tmpController = new $controller();
             }else{
                 die('You are trying to load the Controller Class '.$controller .' without loading the proper Controller scripts');
             }
-        }else{ echo "couldn't find $controller Controller";}
+        }else{ 
+            //echo 'loaded '.$this->Onyx->controllers_loaded . 'controller';
+            header("HTTP/1.0 404 Not Found");
+            echo "couldn't find $controller Controller";
+        }
         //Throw error if file doesn't exists
         return $tmpController;
     }
@@ -103,9 +138,13 @@ abstract class OnyxController implements IOnyxController {
                     $$key = $value;  
                 }
             }
-        $PageHeaderScripts = $this->model->renderHeaderScripts();
-        $PageStyles = $this->model->renderStyles();
-        $PageTitle = '';
+        $PageHeaderScripts = function(){
+            echo $this->model->renderHeaderScripts();
+        };
+        $PageStyles = function(){
+            echo $this->model->renderStyles();
+        };
+        $PageTitle = $this->pageTitle  ;
         $PageMeta = '';
         if(file_exists($base .  "view/{$header}.html.php")){
             include_once $base .  "view/{$header}.html.php";
@@ -151,13 +190,47 @@ abstract class OnyxController implements IOnyxController {
     }
     
     final public function OnyxAJAX(){
-        if(array_search('OnyxAJAX', $this->Onyx->args) === false){
+        $check = array();
+        foreach($this->Onyx->args as $arg){
+            $check[] = strtolower($arg);
+        }
+        $query = array();
+        foreach($this->Onyx->query as $key => $value){
+            $query[strtolower($key)] = $value;
+        }
+        if(array_key_exists('onyxajax', $query)){
+            $check[] = 'onyxajax';
+            $check[] = $query['onyxajax'];
+             
+        }
+        if(array_search('onyxajax', $check) === false || get_class($this) == 'OnyxAppController'){
             return;
         }
+        
         //Get position of OnyxAJAX in array and use the next position of the array for the actual function to run
-        $i = 0;
-        $method = $this->Onyx->args[$i];
-        $this->$method();
-        die();
+        $functionKey = function($check){
+            $keyVal = 0;
+                foreach($check as $key => $value){
+                    if($value == "onyxajax"){
+                       $keyVal = ++$key;
+                    }
+                }
+            if(isset($check[$keyVal])){
+                return $check[$keyVal];
+            }
+            return false;
+        };
+        $method = $functionKey($check);
+        if($method){
+            $this->$method();
+            die();
+        }else{
+            die('No method');
+        }
     }
+    
+    final public function setting($key, $value = null){
+        return $this->model->setting($key, $value);
+    }
+    
 }

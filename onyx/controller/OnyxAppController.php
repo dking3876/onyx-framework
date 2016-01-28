@@ -1,6 +1,4 @@
 <?php
-//require_once ONYX_PATH . 'controller/OnyxController.php';
-
 class OnyxAppController extends OnyxController {
     
     static $instance = null;
