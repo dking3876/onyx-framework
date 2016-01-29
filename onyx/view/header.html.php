@@ -13,7 +13,7 @@
         <script src="<?php echo BASE_URL; ?>onyx/assets/js/Onyx.js" type="text/javascript"></script>
         <?php $PageHeaderScripts(); ?>
 </head>
-    <body class="<?php echo $page; ?>">
+    <body class="OnyxAdministration <?php echo $page; ?>">
         <header>
             <nav class="onyx-nav">
                 <div class="logo-container">

@@ -10,4 +10,8 @@ class OnyxAdminController extends OnyxController{
             $this->renderPage('OnyxDashboard');   
         }
     }
+    public function logout(){
+        $this->model->Onyx->OnyxAuthenticate->logout();
+        header("LOCATION:".BASE_URL."onyx/login");
+    }
 }

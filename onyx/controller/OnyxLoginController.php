@@ -4,9 +4,7 @@ class OnyxLoginController extends OnyxController{
         if($this->model->Onyx->OnyxAuthenticate->Authorized()){
             header("LOCATION: admin");   
         }
-        $this->model->Onyx->OnyxAuthenticate->login();
-        echo 'This is for logging into the backend';
-        echo '<pre>';
-        var_dump($_SESSION);
+        //$this->model->Onyx->OnyxAuthenticate->login();
+        $this->renderPage('OnyxLogin');
     }
 }
