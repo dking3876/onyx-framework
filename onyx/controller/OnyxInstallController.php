@@ -11,6 +11,7 @@ class OnyxInstallController extends OnyxController {
         $this->action = $method = "Onyx{$this->installationStage}";
         //$this->model = $this->model();
         $adminCSS = array(
+            'name'  => 'OnyxAdmin',
             'type'  => 'external',
             'title' => 'OnyxMasterCSS',
             'file'  => 'OnyxAdmin.css'
@@ -18,6 +19,7 @@ class OnyxInstallController extends OnyxController {
         $path = 'Onyx';
         $this->model->styles($adminCSS, $path);
         $installerjs = array(
+            'name'  => 'OnyxInstallation',
             'type'  => 'external',
             'file'  => 'installation.js'
             );
@@ -63,5 +65,7 @@ class OnyxInstallController extends OnyxController {
     }
     protected function OnyxInstallerProgress(){
         
+        $this->model->Onyx->OnyxAuthenticate->login();
+        header("LOCATION: " . BASE_URL . "onyx/admin");
     }
 }

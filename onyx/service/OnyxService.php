@@ -153,9 +153,11 @@ final class OnyxService extends OnyxServiceExtention {
     private function parsedUrlHelper($parsedUrl){
         //For helping with local file system and installation is subfolders
         $newRaw = rtrim(str_replace(realpath($_SERVER['DOCUMENT_ROOT']), '', BASE_PATH), '/');
+
         $newRaw = str_replace('\\', '/', $newRaw);
-        
-        $parsedUrl['path'] = str_replace($newRaw, '', $parsedUrl['path']);
+
+        //$parsedUrl['path'] = str_replace($newRaw, '', $parsedUrl['path']);
+        $parsedUrl['path'] = preg_replace('+'.$newRaw.'+', '', $parsedUrl['path'], 1);
         
         return  array_values(array_filter(explode('/',$parsedUrl['path'])));;
     }

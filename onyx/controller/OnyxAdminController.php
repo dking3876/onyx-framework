@@ -1,10 +1,13 @@
 <?php 
 class OnyxAdminController extends OnyxController{
     public function main(){
-        var_dump($this->model->Onyx->OnyxAuthenticate->Authorized());
+        if(!$this->model->Onyx->OnyxAuthenticate->Authorized()){
+            header("LOCATION: " .BASE_URL."onyx/login");
+        }
         if(get_parent_class($this) == 'OnyxAdminController'){
             $this->sub();
+        }else{
+            $this->renderPage('OnyxDashboard');   
         }
-        echo "the admin";
     }
 }
