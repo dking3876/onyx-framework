@@ -9,11 +9,11 @@ define("ONYX_PATH", BASE_PATH .'onyx/');
 
 define("DATA_PATH", BASE_PATH . 'data/');
 
-include_once ONYX_PATH . 'includes/OnyxUtilities.php';
+include_once ONYX_PATH . 'includes/OnyxFunctions.php';
 
 include_once ONYX_PATH . 'includes/OnyxErrorHandler.php';
 
-include_once ONYX_PATH . 'includes/OnyxFunctions.php';
+include_once ONYX_PATH . 'includes/OnyxUtilities.php';
 
 if(!file_exists(BASE_PATH . 'settings/database/IOnyxCreds.php')){
     include_once ONYX_PATH . 'includes/OnyxInstaller.php';

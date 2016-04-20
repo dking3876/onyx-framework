@@ -120,6 +120,7 @@ final class OnyxService extends OnyxServiceExtention {
                     $this->controller = $path[0].'Controller';
                 }
             }
+            //echo "<pre>";var_dump($path);exit();
         }else{
             $this->controller = 'DefaultController';
             if(!file_exists(BASE_PATH.'data/controller/DefaultController.php')){
@@ -130,9 +131,14 @@ final class OnyxService extends OnyxServiceExtention {
         $queryString = explode("&", ( isset($this->parsedUrl['query']) ? $this->parsedUrl['query'] : '' ) );
         
         foreach($queryString as $query){
+            
             $args = explode("=", $query);
-            $this->query[$args[0]] = isset($args[1]) ?$args[1] : null;
+            
+            $this->query[$args[0]] = isset($args[1]) ? $args[1] : null;
+
         }
+        
+        
         if(isset($_POST)){
             foreach($_POST as $key => $value){
                 $this->query[$key] = $value;
@@ -143,7 +149,7 @@ final class OnyxService extends OnyxServiceExtention {
                 $this->query[$key] = $value;
             }
         }
-        $this->query = array_filter($this->query);
+        //$this->query = array_filter($this->query, 'strlen');
     }
     /**
      * Method for determining the root directory even if installed in a subfolder

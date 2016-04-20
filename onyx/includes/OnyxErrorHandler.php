@@ -7,7 +7,7 @@ class OnyxErrorHandler{
     public $handles = array();
     
     private function __construct(){
-        
+        set_exception_handler(array($this, 'OnyxError'));
     }
     
     static function GetInstance(){
@@ -17,20 +17,46 @@ class OnyxErrorHandler{
         return self::$instance;
     }
     
-    public function OnyxError(Exception $e){
-        
+    public static function OnyxError(Exception $e){
+        self::LogException($e, 'Onyx');
     }
     
-    public function LogError($e, $handle){
-        
+    public static function LogError($e, $handle){
+        $onyx = self::$instance;
     }
     
-    public function RecordError($e, $handle){
-        
+    public static function LogException($e, $handle){
+        $onyx = self::$instance;
     }
     
-    public function NewLog($handle){
-        
+    public static function RecordError($e, $handle){
+        $onyx = self::$instance;
     }
     
+    public static function NewLog($handle){
+        $onyx = self::$instance;
+        if(!array_search($instance, $this->handles)){
+            $this->handles[] = $instance; 
+        }
+    }
+    
+}
+
+class OnyxError{
+
+    private $handler;
+    
+    public $errors = array();
+    
+    public $errorCodes = array();
+    
+    public function __construct($handle, $message = null, $code = null){
+        $this->handler = OnyxErrorHandler::GetInstance();
+       
+    }
+    
+    public function getLast(){
+        return $this->errors;   
+    }
+
 }

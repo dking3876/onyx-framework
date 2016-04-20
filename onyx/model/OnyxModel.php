@@ -33,7 +33,7 @@ class OnyxModel {
      * @param string [$plugin         = null] If plugin is specified in path identify the extention folder
      */
     public function styles($file, $path = null, $plugin = null){
-
+        
         if( !isset( $file['name'] ) || !isset( $file['file'] ) ){
             return false;
         }
@@ -94,8 +94,6 @@ class OnyxModel {
                 'name'  => $file,
                 'file'  => $exists[$file][1]
                 );
-
-            
             
             $type = $exists[$file['name']][0];
         }
@@ -207,6 +205,10 @@ class OnyxModel {
             'bootstrap' => array(
                 'headerScripts',
                 'bootstrap.min.js'
+                ),
+            'jquery-ui' => array(
+                'headerScripts',
+                'jquery-ui.min.js',
                 )
         );
         return $array;
@@ -215,6 +217,15 @@ class OnyxModel {
         $array = array(
             'reset' => array(
                 'reset.css'
+                ),
+            'bootstrap' => array(
+                'bootstrap.min.css'
+                ),
+            'fontawesome'   => array(
+                'font-awesome.min.css'
+                ),
+            'jquery-ui' => array(
+                'jquery-ui.min.css'
                 )
         );
         return $array;

@@ -16,7 +16,7 @@ class OnyxInstallController extends OnyxController {
             'title' => 'OnyxMasterCSS',
             'file'  => 'OnyxAdmin.css'
             );
-        $path = 'Onyx';
+        $path = 'onyx';
         $this->model->styles($adminCSS, $path);
         $installerjs = array(
             'name'  => 'OnyxInstallation',

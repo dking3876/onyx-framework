@@ -19,7 +19,10 @@ abstract class OnyxController implements IOnyxController {
     final protected function __construct($service = null){
         $this->Onyx = &OnyxService::GetInstance();
         $this->model = $this->defaultModel();
-        $this->OnyxAJAX();
+        $this->loadAction();
+        if($service != "ajax"){
+            $this->OnyxAJAX();
+        }
         $this->main($service = null);
     }
     /**
@@ -49,24 +52,29 @@ abstract class OnyxController implements IOnyxController {
     }
     */
     public function loadAction(){
-        
+        if(array_key_exists('action', $this->Onyx->query)){
+            $this->action = $this->Onyx->query['action'];   
+        }else{
+            //echo '<pre>';var_dump($this->Onyx->query);exit();   
+        }
     }
     public function set_dependancy($dependancy){
         
     }
     
     final public function view($view,$path = null){
-        $base = $path ? $path : $this->Onyx->base;
-        if(file_exists($path . "view/{$view}.html.php")){
+        $base = $path != null ? $path : $this->Onyx->base;
+        if(file_exists($base . "view/{$view}.html.php")){
             foreach($this->Onyx->viewData as $item){
                 foreach($item as $key => $value){
                     $$key = $value;  
                 }
             }
             echo "\r\n";
-            include_once $path . "view/{$view}.html.php";
+            
+            include_once $base . "view/{$view}.html.php";            
         }else{ 
-            echo "couldn't find $view View";
+            echo "couldn't find $base $view View";
         }
         //Throw error if file doesn't exists
     }
@@ -121,11 +129,15 @@ abstract class OnyxController implements IOnyxController {
                 die('You are trying to load the Controller Class '.$controller .' without loading the proper Controller scripts');
             }
         }else{ 
-            //echo 'loaded '.$this->Onyx->controllers_loaded . 'controller';
             header("HTTP/1.0 404 Not Found");
-            echo "couldn't find $controller Controller";
+            if(debug_backtrace()[1]['class'] == "OnyxAppController"){
+                echo "this is a page 404 for the $controller ";
+            }else{
+                echo "couldn't find $controller Controller";
+            }
         }
         //Throw error if file doesn't exists
+        
         return $tmpController;
     }
     final public function renderHeader($header = null, $path = null){
@@ -133,6 +145,7 @@ abstract class OnyxController implements IOnyxController {
         if($header === null){
             $header = "header";    
         }
+
             foreach($this->Onyx->viewData as $item){
                 foreach($item as $key => $value){
                     $$key = $value;  
@@ -147,7 +160,9 @@ abstract class OnyxController implements IOnyxController {
         $PageTitle = $this->pageTitle  ;
         $PageMeta = '';
         if(file_exists($base .  "view/{$header}.html.php")){
+
             include_once $base .  "view/{$header}.html.php";
+
         }else{ echo "couldn't find $header Header"; }
     }
     final public function renderFooter($footer = null, $path = null){
@@ -160,7 +175,9 @@ abstract class OnyxController implements IOnyxController {
                     $$key = $value;  
                 }
             }
-        $PageFooterScripts = $this->model->renderFooterScripts();
+        $PageFooterScripts = function(){
+            echo $this->model->renderFooterScripts();
+        };
         if(file_exists($base .  "view/{$footer}.html.php")){
             include_once $base .  "view/{$footer}.html.php";
         }else{ echo "coultn' fine $footer Footer";}
@@ -203,25 +220,32 @@ abstract class OnyxController implements IOnyxController {
             $check[] = $query['onyxajax'];
              
         }
-        if(array_search('onyxajax', $check) === false || get_class($this) == 'OnyxAppController'){
-            return;
-        }
-        
-        //Get position of OnyxAJAX in array and use the next position of the array for the actual function to run
         $functionKey = function($check){
             $keyVal = 0;
-                foreach($check as $key => $value){
-                    if($value == "onyxajax"){
-                       $keyVal = ++$key;
-                    }
+            foreach($check as $key => $value){
+                if($value == "onyxajax"){
+                   $keyVal = ++$key;
                 }
+            };
             if(isset($check[$keyVal])){
-                return $check[$keyVal];
+                if(strpos($check[$keyVal], '/') !== false){
+                    return explode("/", $check[$keyVal]);
+                }else{
+                    return $check[$keyVal];
+                }
             }
             return false;
         };
         $method = $functionKey($check);
-        if($method){
+        if(array_search('onyxajax', $check) === false || ( get_class($this) == 'OnyxAppController' && !is_array($method) ) ){
+            return;
+        }
+        if( is_array($method) ){
+            $tmpMethod = $method[0].'Controller';
+            $tmpController = new $tmpMethod("ajax");
+            $tmpController->$method[1]();
+            die();
+        }else if($method){
             $this->$method();
             die();
         }else{
