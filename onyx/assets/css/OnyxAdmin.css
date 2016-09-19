@@ -1,40 +1,32 @@
-/* line 3, sass/OnyxAdmin.scss */
 h1 {
   font-size: 1.75em;
 }
 
-/* line 6, sass/OnyxAdmin.scss */
 h2 {
   font-size: 1.5em;
 }
 
-/* line 9, sass/OnyxAdmin.scss */
 h3 {
   font-size: 1.35em;
 }
 
-/* line 12, sass/OnyxAdmin.scss */
 h4, h5, h6 {
   font-size: 1.15em;
 }
 
-/* line 15, sass/OnyxAdmin.scss */
 form {
   background-color: rgba(250, 250, 250, 0.5);
   padding-left: 25px;
   box-sizing: border-box;
 }
-/* line 19, sass/OnyxAdmin.scss */
 form h2 {
   font-family: "News Cycle";
   font-size: 28px;
   margin-top: 0px;
 }
-/* line 24, sass/OnyxAdmin.scss */
 form * {
   box-sizing: border-box;
 }
-/* line 27, sass/OnyxAdmin.scss */
 form label {
   display: block;
   padding: 0px 25px;
@@ -42,13 +34,11 @@ form label {
   font-size: 18px;
   text-transform: uppercase;
 }
-/* line 34, sass/OnyxAdmin.scss */
 form label:after {
   clear: both;
   display: block;
   content: "";
 }
-/* line 39, sass/OnyxAdmin.scss */
 form label span {
   display: inline-block;
   width: 35%;
@@ -56,27 +46,23 @@ form label span {
   font-family: "Alegreya Sans SC";
   font-weight: 700;
 }
-/* line 47, sass/OnyxAdmin.scss */
 form label input, form label select, form label textarea {
   width: 40%;
   display: inline-block;
   float: left;
+  color:black;
 }
-/* line 52, sass/OnyxAdmin.scss */
 form label input[type="number"], form label select[type="number"], form label textarea[type="number"] {
   max-width: 50px;
 }
-/* line 55, sass/OnyxAdmin.scss */
 form label input[type="radio"], form label select[type="radio"], form label textarea[type="radio"] {
   max-width: 50px;
   float: none;
 }
-/* line 60, sass/OnyxAdmin.scss */
 form label textarea {
   height: 135px;
   font-size: 15px;
 }
-/* line 64, sass/OnyxAdmin.scss */
 form label label {
   margin-left: 160px;
   float: left;
@@ -86,11 +72,9 @@ form label label {
   font-weight: 700;
   text-transform: uppercase;
 }
-/* line 73, sass/OnyxAdmin.scss */
 form label input[type="text"] {
   width: 300px;
 }
-/* line 77, sass/OnyxAdmin.scss */
 form input[type="submit"] {
   width: 200px;
   padding: 10px;
@@ -99,25 +83,22 @@ form input[type="submit"] {
   font-size: 20px;
   clear: both;
   float: left;
+  background-color:#0084a8;
 }
 
-/* line 88, sass/OnyxAdmin.scss */
 .left {
   float: left;
 }
 
-/* line 91, sass/OnyxAdmin.scss */
 .right {
   float: right;
 }
 
-/* line 94, sass/OnyxAdmin.scss */
 .pre-loader {
   width: 45px;
   height: 45px;
 }
 
-/* line 98, sass/OnyxAdmin.scss */
 html {
   background-image: url("../images/onyx-pattern.jpg");
   background-repeat: no-repeat;
@@ -126,15 +107,12 @@ html {
   height: 100%;
 }
 
-/* line 106, sass/OnyxAdmin.scss */
 body {
   padding: 10px;
 }
-/* line 108, sass/OnyxAdmin.scss */
 body.OnyxInstall {
   color: #fff;
 }
-/* line 110, sass/OnyxAdmin.scss */
 body.OnyxInstall:before {
   position: absolute;
   top: 0;
@@ -147,18 +125,15 @@ body.OnyxInstall:before {
   content: "";
   z-index: -1;
 }
-/* line 122, sass/OnyxAdmin.scss */
 body.OnyxInstall:after {
   content: "";
   clear: both;
   display: block;
 }
-/* line 127, sass/OnyxAdmin.scss */
 body.OnyxInstall #db, body.OnyxInstall #lib, body.OnyxInstall #write {
   position: relative;
   padding: 10px 25px;
 }
-/* line 130, sass/OnyxAdmin.scss */
 body.OnyxInstall #db .status, body.OnyxInstall #lib .status, body.OnyxInstall #write .status {
   width: 45px;
   height: 45px;
@@ -171,11 +146,122 @@ body.OnyxInstall #db .status, body.OnyxInstall #lib .status, body.OnyxInstall #w
   top: 0px;
 }
 
-/* line 145, sass/OnyxAdmin.scss */
 body.OnyxInstall .welcome-message {
   width: 35%;
 }
-/* line 148, sass/OnyxAdmin.scss */
-body.OnyxInstall .health-check {
-  width: 60%;
+body.OnyxInstall div.health-check {
+  padding-left:10em;
+}
+div{
+            box-sizing: border-box;
+        }
+        #onyx-admin-sidesection{
+            width:200px;
+            background-color:black;
+            position:fixed;
+            top:0px;
+            left:0px;
+            height:100%;
+            color:#FFF;
+        }
+        #onyx-admin-topsection{
+            width:100%;
+            background-color:black;
+            background: url('http://onyxdev.dev/onyx/assets/images/onyx-pattern.jpg');
+            background-size:cover;
+            background-repeat:no-repeat;
+            background-position: center;
+            position:fixed;
+            top:0px;
+            left:0px;
+            height:80px;
+            z-index:2;
+        }
+        #information{
+            position:absolute;
+            top:0px;
+            left:0px;
+            background-color:#0084A8;
+            height:40px;
+            width:100%;
+        }
+        #onyx-glance {
+            padding:0px !important;
+	       width:200px;
+            height:100%;
+            background-color:black;
+             background: url('http://onyxdev.dev/onyx/assets/images/3d-onyx.jpg');
+            background-size:cover;
+            background-repeat:no-repeat;
+            position:absolute;
+            color:#FFF;
+        }
+        #onyx-brand{
+            height:45px;
+            width:100%;
+            color:#FFF;
+        }
+             #onyx-brand img{
+            height:100%;
+        }
+        #user-info{           
+            height:35px;
+        }
+        div#onyx-admin-menu-section {
+            height: 100%;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            padding: 145px 5px 0px 10px;
+            width: 100%;
+                overflow-x: hidden;
+    overflow-y: auto;
+        }
+        .top-section-innercontainer {
+    color: black;
+    padding: 10px 0px 0px 200px;
+            height:100%;
+}
+        .right-container {
+        float: right;
+            color:#FFF;
+    background-color: #000;
+    height: 100%;
+    padding: 5px 10px;
+    font-weight: 700;
+    font-size: 16px;
+            max-width:100%;
+            /*width:250px;*/
+            line-height: 20px;
+}
+        .top-dash {
+    
+    margin-left: 205px;
+    color: #fff;
+    width: 100%;
+    height: 35px;
+}
+            
+        .administrator-menu-items{
+            list-style:none;
+            padding-left:10px;
+            margin:0px;
+        }
+        ul.administrator-menu-items li{
+            display:block;
+            line-height:30px;
+            font-size:20px;
+        }
+        .onyx-admincontent-section {
+    margin-left: 200px;
+    margin-top: 80px;
+    padding: 15px;
+    
+}
+        .full-container {
+    padding: 5px 0px 0px 10px;
+    background: rgba(250,250,250,0.6);
+    height: 100%;
+    width: 100%;
+    color: #000;
 }

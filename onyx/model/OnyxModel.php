@@ -33,7 +33,23 @@ class OnyxModel {
      * @param string [$plugin         = null] If plugin is specified in path identify the extention folder
      */
     public function styles($file, $path = null, $plugin = null){
-        
+        if(is_array($file) || is_array($file[0])){
+            foreach($file as $set){
+                $this->styleLoader($set, $path, $plugin);  
+            }
+        }else{
+            $this->styleLoader($file, $path, $plugin);
+        }
+    }
+    protected function styleLoader($file, $path = null, $plugin = null){
+        if(!is_array($file) && array_key_exists($file, $this->GetSupportedStyles())){
+
+            $exists = $this->GetSupportedStyles();      
+            $file = array(
+                'name'  => $file,
+                'file'  => $exists[$file][0]
+                );
+        }
         if( !isset( $file['name'] ) || !isset( $file['file'] ) ){
             return false;
         }
@@ -44,8 +60,7 @@ class OnyxModel {
             array_push(OnyxService::$LoggedStyles, $file['name'] );
 
         }
-        array_merge(
-            array(
+        array_merge(array(
                 'name'  => '',
                 'type'  => '',
                 'title' => '',
@@ -68,7 +83,13 @@ class OnyxModel {
      * @param [[Type]] [$plugin = null] [[Description]]
      */
     public function headerScripts($file, $path = null, $plugin = null){
-        $this->scriptSwitch($file, $path, $plugin, 'headerScripts');
+        if(is_array($file) && is_array($file[0])){
+            foreach($file as $set){
+                $this->scriptSwitch($set, $path, $plugin, 'headerScripts');    
+            }
+        }else{
+            $this->scriptSwitch($file, $path, $plugin, 'headerScripts');
+        }
     }
     /**
      * [[Description]]
@@ -77,7 +98,13 @@ class OnyxModel {
      * @param [[Type]] [$plugin = null] [[Description]]
      */
     public function footerScripts($file, $path = null, $plugin = null){
-        $this->scriptSwitch($file, $path,$plugin, 'footerScripts');
+        if(is_array($file) && is_array($file[0])){
+            foreach($file as $set){
+                $this->scriptSwitch($set, $path, $plugin, 'footerScripts');    
+            }
+        }else{
+            $this->scriptSwitch($file, $path, $plugin, 'footerScripts');
+        }
     }
     /**
      * [[Description]]
@@ -189,45 +216,25 @@ class OnyxModel {
     }
     
     private function GetSupportedScripts(){
-        $array = array(
-            'jquery' => array(
-                'headerScripts',
-                "jquery-1.11.3.min.js"
-                ),
-            'angular' => array(
-                'headerScripts', 
-                'angular.min.js'
-                ),
-            'onyx'  => array(
-                'headerScripts',
-                'Onyx.js'
-                ),
-            'bootstrap' => array(
-                'headerScripts',
-                'bootstrap.min.js'
-                ),
-            'jquery-ui' => array(
-                'headerScripts',
-                'jquery-ui.min.js',
-                )
-        );
+         $tmp = $this->Onyx->OnyxUtilities->ReadOnyxFile("assets", "supportedScripts");
+         $array;
+         foreach($tmp as $new){
+             foreach($new as $source => $info){
+                 //var_dump($source, $info);
+                 $array[$source] = $info;
+             }
+         }
         return $array;
     }
     private function GetSupportedStyles(){
-        $array = array(
-            'reset' => array(
-                'reset.css'
-                ),
-            'bootstrap' => array(
-                'bootstrap.min.css'
-                ),
-            'fontawesome'   => array(
-                'font-awesome.min.css'
-                ),
-            'jquery-ui' => array(
-                'jquery-ui.min.css'
-                )
-        );
+         $tmp = $this->Onyx->OnyxUtilities->ReadOnyxFile("assets", "supportedStyles");
+         $array;
+         foreach($tmp as $new){
+             foreach($new as $source => $info){
+                 //var_dump($source, $info);
+                 $array[$source] = $info;
+             }
+         }
         return $array;
     }
     public function setting($key, $value = null){

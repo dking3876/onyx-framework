@@ -18,6 +18,11 @@ class onyx_users_table extends DataStructure{
                         'default'   => "AUTO_INCREMENT NOT NULL"
         );
         $column[] = (object) array(
+                    'column_name'    => "AccessLevel",
+                        'type'      => "Int(10)",
+                        'default'   => "NOT NULL"
+        );
+        $column[] = (object) array(
                     'column_name'    => "UserName",
                         'type'      => "varchar(100)",
                         'default'   => "NOT NULL"

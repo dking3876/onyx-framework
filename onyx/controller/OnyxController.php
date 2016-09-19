@@ -18,11 +18,14 @@ abstract class OnyxController implements IOnyxController {
     
     final protected function __construct($service = null){
         $this->Onyx = &OnyxService::GetInstance();
-        $this->model = $this->defaultModel();
-        $this->loadAction();
-        if($service != "ajax"){
+        $this->model = $this->defaultModel();        
+        if($service != "ajax"){ 
+            /* ajax is called with url parameter of onyxajax={controller}/{method}/{additional}
+             * providing only a method will result in using the current controller
+             */
             $this->OnyxAJAX();
         }
+        $this->loadAction();
         $this->main($service = null);
     }
     /**
@@ -52,11 +55,24 @@ abstract class OnyxController implements IOnyxController {
     }
     */
     public function loadAction(){
+        if(null != $this->Onyx->action){
+            if(method_exists($this, $this->Onyx->action)){
+                //call the action
+                if(null != $this->Onyx->vars){
+                    call_user_func_array(array($this, $this->Onyx->action), $this->Onyx->vars);
+                }
+                else{
+                    $this->{$this->Onyx->action}();
+                }
+                exit();
+            }
+        }
+        /*
         if(array_key_exists('action', $this->Onyx->query)){
             $this->action = $this->Onyx->query['action'];   
         }else{
             //echo '<pre>';var_dump($this->Onyx->query);exit();   
-        }
+        }*/
     }
     public function set_dependancy($dependancy){
         
@@ -129,12 +145,8 @@ abstract class OnyxController implements IOnyxController {
                 die('You are trying to load the Controller Class '.$controller .' without loading the proper Controller scripts');
             }
         }else{ 
-            header("HTTP/1.0 404 Not Found");
-            if(debug_backtrace()[1]['class'] == "OnyxAppController"){
-                echo "this is a page 404 for the $controller ";
-            }else{
-                echo "couldn't find $controller Controller";
-            }
+            $this->_404($controller);
+            
         }
         //Throw error if file doesn't exists
         
@@ -257,4 +269,14 @@ abstract class OnyxController implements IOnyxController {
         return $this->model->setting($key, $value);
     }
     
+    final public function _404($controller){
+        //This will handle the 404 errors  
+        //echo '<pre>';var_dump(debug_backtrace());
+        header("HTTP/1.0 404 Not Found");
+            if(debug_backtrace()[2]['class'] == "OnyxAppController"){
+                echo "this is a page 404 for the $controller ";
+            }else{
+                echo "couldn't find $controller Controller";
+            }
+    }
 }

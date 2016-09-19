@@ -18,7 +18,7 @@
                             <input type="submit" class="form-control btn btn-primary" value="Login">
                         </div>
                         <div class="form-group">
-                            <span><a href="?forgot">Forgot Login/Password</a></span>
+                            <span><a href="?forgot" id="Onyx_forgot_password">Forgot UserName/Password</a></span>
                         </div>
 
                     </form>

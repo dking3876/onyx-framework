@@ -84,6 +84,7 @@ final class OnyxAuthenticate implements IonyxAuthenticate {
         $code = $_SESSION['Onyx_session_id'];
         //get $_POST password and $_POST username if username is found grab the password and decrypt check against $_POST password
         //if($_post password == $this->decrypt($password from db)){ $_SESSION['Onyx_authorized'] = $this->encrypt($code);   } else{ //error}
+        
         $_SESSION['Onyx_authorized'] = $this->encrypt($code);   
         header("LOCATION: admin");   
     }

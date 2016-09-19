@@ -1,5 +1,5 @@
-<h1>This is the Installer View for asking for Database Creds to get started</h1>
-<form action="?installer=AppSetup&auth=<?php echo $_GET['auth']; ?>" method="post" onSubmit="return CheckDatabaseConnection(); ">
+<h1>Database</h1>
+<form action="?installer=AppSetup&auth=<?php echo $_GET['auth']; ?>" method="post" onSubmit="return Onyx.CheckDatabaseConnection(); ">
     <input type="hidden" name="OnyxAuth" value="<?php echo $OnyxAuth; ?>">
     <label>
         <span>Connection</span>
@@ -21,11 +21,11 @@
         <input type="text" name="USER">
     </label>
     <label>
-        <span>Paswword</span>
+        <span>Password</span>
         <input type="text" name="PASSWORD">
     </label>
     <label>
-        <span>Enviorment</span>
+        <span>Enviroment</span>
         <select name="ENVIROMENT">
             <option value="LIVE">LIVE</option>
             <option value="STAGING">STAGING</option>

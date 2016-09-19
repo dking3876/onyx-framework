@@ -10,31 +10,46 @@ class OnyxInstallController extends OnyxController {
         $this->authKey = isset($_GET['auth']) ? $_GET['auth'] : '';
         $this->action = $method = "Onyx{$this->installationStage}";
         //$this->model = $this->model();
-        $adminCSS = array(
-            'name'  => 'OnyxAdmin',
-            'type'  => 'external',
-            'title' => 'OnyxMasterCSS',
-            'file'  => 'OnyxAdmin.css'
-            );
-        $path = 'onyx';
-        $this->model->styles($adminCSS, $path);
-        $installerjs = array(
-            'name'  => 'OnyxInstallation',
-            'type'  => 'external',
-            'file'  => 'installation.js'
-            );
-        $this->model->headerScripts('jquery');
-        $this->model->headerScripts($installerjs, $path);
+        $this->LoadDependancies();
         /*$this->model->styles();
         $this->model->footerScripts();
         */
         $this->pageTitle = "OnyxInstaller";
         $this->$method();
     }
-    
+    protected function LoadDependancies(){
+        $adminCSS = array(
+            "OnyxAdmin",
+            "bootstrap"
+            );
+        $path = 'onyx';
+        $this->model->styles($adminCSS, $path);
+        $installerjs = array(
+            array(
+                'name'  => 'OnyxMaster',
+                'type'  => 'external',
+                'file'  => 'Onyx.js'
+            ),
+            array(
+                'name'  => 'OnyxInstallation',
+                'type'  => 'external',
+                'file'  => 'installation.js'
+            ),
+            array(
+                'name'  => 'OnyxModal',
+                'type'  => 'external',
+                'file'  => 'modal.js'
+            )
+        );
+        $this->model->headerScripts('jquery', $path);
+        $this->model->headerScripts($installerjs, $path);
+    }
     protected function OnyxStartInstaller(){
         $auth = uniqid();
-        $this->Onyx->viewData(array('auth' => $auth));
+        $this->Onyx->viewData(array(
+            'auth' => $auth,
+            'authorized' => false
+            ));
         $this->model->CheckSystemHealth();
         
         $this->renderPage('welcome.install');
@@ -44,7 +59,10 @@ class OnyxInstallController extends OnyxController {
         if($this->Onyx->query['OnyxAuth'] != $_GET['auth']){
             die('You do not have permission to Access this page');
         }
-        $this->Onyx->viewData(array("OnyxAuth" => $this->Onyx->query['OnyxAuth']));
+        $this->Onyx->viewData(array(
+            "OnyxAuth" => $this->Onyx->query['OnyxAuth'],
+            "authorized"    => false
+            ));
         $this->renderPage($this->action);
     }
     protected function OnyxAppSetup(){
@@ -54,18 +72,27 @@ class OnyxInstallController extends OnyxController {
         }
         $this->model->GenerateSalt();
         $this->model->GenerateCreds();
-        $this->Onyx->viewData(array("OnyxAuth" => $this->Onyx->query['OnyxAuth']));
+        $this->Onyx->viewData(array(
+            "OnyxAuth" => $this->Onyx->query['OnyxAuth'],
+            "authorized"    => false));
         $this->renderPage($this->action);
     }
     protected function OnyxInstallDatabase(){
         if($this->Onyx->query['OnyxAuth'] != $_GET['auth']){
             die('You do not have permission to Access this page');
         }
-        $this->Onyx->viewData(array("OnyxAuth" => $this->Onyx->query['OnyxAuth']));
+        $this->Onyx->viewData(array(
+            "OnyxAuth" => $this->Onyx->query['OnyxAuth'],
+            "authorized"    => false));
     }
     protected function OnyxInstallerProgress(){
         
         $this->model->Onyx->OnyxAuthenticate->login();
         header("LOCATION: " . BASE_URL . "onyx/admin");
+    }
+    public function requirementCheck(){
+        echo "Checking System requirments";
+        $check = $this->Onyx->query['requirement'];
+        var_dump($check);;
     }
 }
