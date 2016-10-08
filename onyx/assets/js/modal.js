@@ -1,5 +1,4 @@
 var opop = (function(){
-    console.log("building modal");
    var create = function(el, cl, attr){
        attr = attr || [];
        var a = document.createElement(el);
@@ -18,8 +17,6 @@ var opop = (function(){
        if(document.attachEvent){
            el.attachEvent("on"+event, callback);   
        }
-        
-        
    };
    var mainContainer = create("div", "modal",[
        {
@@ -83,10 +80,12 @@ var opop = (function(){
        },
        close: function(){
            contentContainer.innerHTML = "";
-           if(document.remove){
+           if(mainContainer.remove){
+               console.log("using remove method");
                mainContainer.remove();
            }else{
-               mainContainer.removeNode();
+               console.log("using removeNode method");
+               mainContainer.removeNode(true);
            }
            
            

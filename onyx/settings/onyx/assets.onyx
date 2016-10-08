@@ -4,53 +4,53 @@
             {
                 "onyx":[
                     "headerScripts",
-                    "Onyx.js"
+                    "js/Onyx.js"
                 ]
             },
             {
                 "jquery":[
                     
                     "headerScripts",
-                    "jquery-1.11.3.min.js"
+                    "libs/jquery/dist/jquery.min.js"
                 ]
             },
             {
                 "bootstrap":[
                     "headerScripts",
-                    "bootstrap.min.js"
+                    "libs/bootstrap/dist/js/bootstrap.min.js"
                 ]
             },
             {
                 "jquery-ui":[
                     "headerScripts",
-                    "jquery-ui.min.js"
+                    "libs/jquery-ui/jquery-ui.min.js"
                 ]
             }
         ],
         "supportedStyles":[
             {
                 "OnyxAdmin":[
-                    "OnyxAdmin.css"
+                    "css/OnyxAdmin.css"
                 ]
             },
             {
                 "reset":[
-                    "reset.css"
+                    "css/reset.css"
                 ]
             },
             {
                 "bootstrap":[
-                    "bootstrap.min.css"
+                    "libs/bootstrap/dist/css/bootstrap.min.css"
                 ]
             },
             { 
                 "fontawesome":[
-                    "font-awesome.min.css"
+                    "libs/fontawesome/css/font-awesome.min.css"
                 ]
             },
             {
                 "jquery-ui":[
-                    "jquery-ui.min.css"
+                    "css/jquery-ui.min.css"
                 ]
             }
         ]
