@@ -27,9 +27,6 @@ class OnyxUpateCore {
     private function version_compare(){
         
     }
-    private function purleychange(){
-        var_dump("something significate");
-    }
     private function load_zip(){
         $tmp_path = $_FILES['update_file']['tmp_name'];
         $this->path_to_upload = $tmp_path;
