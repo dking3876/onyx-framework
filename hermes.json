@@ -2,20 +2,19 @@
     "name": "Onyx Test",
     "account": "dking3876",
     "repo": "onyx-framework",
-    "tag": "dev",
     "deploy": [
         {
             "tag": "dev",
-            "branch": "_beta",
+            "branch": "beta",
             "source": "",
-            "target": "/var/www/html/onyx"
+            "target": "/var/www/html/onyx-dev"
         },
         {
             "tag": "staging",
-            "branch": "dev",
+            "branch": "beta",
             "beforeinstall": "scripts/before.sh",
             "source": "",
-            "target": "/var/www/html/onyx-dev"
+            "target": "/var/www/html/onyx-staging"
         }
     ]
 }
