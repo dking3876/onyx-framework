@@ -1,0 +1,21 @@
+{
+    "name": "Onyx Test",
+    "account": "dking3876",
+    "repo": "onyx-framework",
+    "tag": "dev",
+    "deploy": [
+        {
+            "tag": "dev",
+            "branch": "beta",
+            "source": "",
+            "target": "/var/www/html/onyx"
+        },
+        {
+            "tag": "staging",
+            "branch": "dev",
+            "beforeinstall": "scripts/before.sh",
+            "source": "",
+            "target": "/var/www/html/onyx-dev"
+        }
+    ]
+}
