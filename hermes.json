@@ -6,7 +6,7 @@
     "deploy": [
         {
             "tag": "dev",
-            "branch": "beta",
+            "branch": "_beta",
             "source": "",
             "target": "/var/www/html/onyx"
         },
