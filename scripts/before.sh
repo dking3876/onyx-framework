@@ -3,4 +3,4 @@ if [ ! -d /var/www/onyx-core ]
 then
     mkdir /var/www/onyx-core
 fi
-cp "$HERMES_ROOT"/onyx/* /var/www/onyx-core
+cp -R "$HERMES_ROOT"/onyx/* /var/www/onyx-core
