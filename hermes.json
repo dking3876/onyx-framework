@@ -14,7 +14,7 @@
             "branch": "beta",
             "beforeinstall": "scripts/before.sh",
             "source": "",
-            "target": "/var/www/html/onyx-staging"
+            "target": "/var/www/html/onyx-stagings"
         }
     ]
 }
