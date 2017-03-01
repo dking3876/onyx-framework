@@ -13,6 +13,7 @@
             "tag": "staging",
             "branch": "beta",
             "beforeinstall": "scripts/before.sh",
+            "afterinstall": "scripts/after.sh",
             "source": "",
             "target": "/var/www/html/onyx-stagings"
         }
