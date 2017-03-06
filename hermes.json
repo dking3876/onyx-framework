@@ -16,6 +16,14 @@
             "afterinstall": "scripts/after.sh",
             "source": "",
             "target": "/var/www/html/onyx-stagings"
+        },
+        {
+            "tag": "live",
+            "branch": "master",
+            "beforeinstall": "scripts/before.sh",
+            "afterinstall": "scripts/after.sh",
+            "source": "",
+            "target": "/var/www/html/onyx"
         }
     ]
 }
