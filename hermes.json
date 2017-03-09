@@ -11,7 +11,7 @@
         },
         {
             "tag": "staging",
-            "branch": "beta",
+            "branch": "development",
             "beforeinstall": "scripts/before.sh",
             "afterinstall": "scripts/after.sh",
             "source": "",
@@ -19,7 +19,7 @@
         },
         {
             "tag": "live",
-            "branch": "master",
+            "branch": "stable",
             "beforeinstall": "scripts/before.sh",
             "afterinstall": "scripts/after.sh",
             "source": "",
