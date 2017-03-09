@@ -8,10 +8,13 @@
  * @param string $fileName      The filename for the image you would like to render
  * @param st [$path = null] path for the image either Onyx or extensions
  */
-function renderImage($fileName, $path = null){
+function renderImage($fileName, $path = null, $info = null){
     $file = BASE_PATH.($path != null? $path.'/':'/').'assets/images/'.$fileName;
     if(file_exists($file)){
-     ?><img src="<?php echo BASE_URL.($path != null? $path.'/':'/').'assets/images/'.$fileName; ?>"><?php
+        $renderedPath = BASE_URL.($path != null? $path.'/':'/').'assets/images/'.$fileName;
+        $renderedClass = isset($info['class'])? 'class="'.$info['class'].'"': "";
+        $renderedImage = sprintf('<img src="%s" %s >', $renderedPath, $renderedClass);
+        echo $renderedImage;
     }
 }
 function ensureArray(&$array){
@@ -37,7 +40,7 @@ function return_Onyx_file_array($searchArray, $key = null, $value = null){
     }
     foreach($searchArray as $akey){
         $akey = (array)$akey;
-        $akey = array('supportedType' => array('mysql', 'pdo'));
+        //$akey = array('supportedType' => array('mysql', 'pdo'));
         if($v = array_column($akey, $key)){
             return $v[0];
         }
@@ -47,4 +50,12 @@ function return_Onyx_file_array($searchArray, $key = null, $value = null){
             }
         }
     }
+}
+
+function valueCheck($val1, $val2, $message){
+    if($val1 == $val2){
+        return $message;
+    }
+    return false;
+    
 }

@@ -54,6 +54,8 @@ final class OnyxService extends OnyxServiceExtention {
     public $OnyxAuthenticate;
     
     public $OnyxIntercepts;
+
+    public $OnyxUtilities;
     
     static $instance = null;
     
@@ -67,7 +69,12 @@ final class OnyxService extends OnyxServiceExtention {
     /**
      * [[Description]]
      */
-    private function __construct(){
+    public $action = null;
+    
+    public $vars = null;
+    
+    private function __construct(OnyxUtilities $OnyxUtilities){
+        $this->OnyxUtilities = $OnyxUtilities;
         $this->getPath();
         global $onyxAuthenticate;
         $this->OnyxAuthenticate = $onyxAuthenticate;
@@ -78,7 +85,8 @@ final class OnyxService extends OnyxServiceExtention {
      */
     static function GetInstance(){
         if(OnyxService::$instance == null){
-            OnyxService::$instance = new OnyxService();
+            global $OnyxUtilities;
+            OnyxService::$instance = new OnyxService($OnyxUtilities);
         }
         return OnyxService::$instance;
     }
@@ -102,6 +110,7 @@ final class OnyxService extends OnyxServiceExtention {
         
         
         $this->args = isset($path)? $path : array();
+        
         if(isset($path[0])){
             if(strtolower($path[0]) == "onyx"){
                 $this->base = ONYX_PATH;
@@ -118,8 +127,23 @@ final class OnyxService extends OnyxServiceExtention {
                     $this->controller = 'DefaultController';
                 }else{
                     $this->controller = $path[0].'Controller';
+                    $this->action = isset($path[1])? strtolower($path[1]) : null;
+                    
+                    if(isset($path[2])){
+                        $var_array = array();
+                        unset($path[0]);
+                        unset($path[1]);
+                        
+                        $var_array = array_values($path);
+                        for($i = 0;$i<count($var_array);++$i){
+                            
+                            $this->vars[] = $var_array[$i];
+                        }
+                    }
+                    
                 }
             }
+            //echo "<pre>";var_dump($path);exit();
         }else{
             $this->controller = 'DefaultController';
             if(!file_exists(BASE_PATH.'data/controller/DefaultController.php')){
@@ -130,9 +154,14 @@ final class OnyxService extends OnyxServiceExtention {
         $queryString = explode("&", ( isset($this->parsedUrl['query']) ? $this->parsedUrl['query'] : '' ) );
         
         foreach($queryString as $query){
+            
             $args = explode("=", $query);
-            $this->query[$args[0]] = isset($args[1]) ?$args[1] : null;
+            
+            $this->query[$args[0]] = isset($args[1]) ? $args[1] : null;
+
         }
+        
+        
         if(isset($_POST)){
             foreach($_POST as $key => $value){
                 $this->query[$key] = $value;
@@ -143,7 +172,7 @@ final class OnyxService extends OnyxServiceExtention {
                 $this->query[$key] = $value;
             }
         }
-        $this->query = array_filter($this->query);
+        //$this->query = array_filter($this->query, 'strlen');
     }
     /**
      * Method for determining the root directory even if installed in a subfolder

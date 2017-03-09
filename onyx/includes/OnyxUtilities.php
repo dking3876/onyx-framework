@@ -15,22 +15,61 @@ final class OnyxUtilities {
     /**
      * Contructor for the OnyxUtilities
      */
+    
+    public $zonelist = array(
+        'Kwajalein' => -12.00, 
+        'Pacific/Midway' => -11.00, 
+        'Pacific/Honolulu' => -10.00, 
+        'America/Anchorage' => -9.00, 
+        'America/Los_Angeles' => -8.00, 
+        'America/Denver' => -7.00, 
+        'America/Tegucigalpa' => -6.00, 
+        'America/New_York' => -5.00, 
+        'America/Caracas' => -4.30, 
+        'America/Halifax' => -4.00, 
+        'America/St_Johns' => -3.30, 
+        'America/Argentina/Buenos_Aires' => -3.00, 
+        'America/Sao_Paulo' => -3.00, 
+        'Atlantic/South_Georgia' => -2.00, 
+        'Atlantic/Azores' => -1.00, 
+        'Europe/Dublin' => 0, 
+        'Europe/Belgrade' => 1.00, 
+        'Europe/Minsk' => 2.00, 
+        'Asia/Kuwait' => 3.00, 
+        'Asia/Tehran' => 3.30, 
+        'Asia/Muscat' => 4.00, 
+        'Asia/Yekaterinburg' => 5.00, 
+        'Asia/Kolkata' => 5.30, 
+        'Asia/Katmandu' => 5.45, 
+        'Asia/Dhaka' => 6.00, 
+        'Asia/Rangoon' => 6.30, 
+        'Asia/Krasnoyarsk' => 7.00, 
+        'Asia/Brunei' => 8.00, 
+        'Asia/Seoul' => 9.00, 
+        'Australia/Darwin' => 9.30, 
+        'Australia/Canberra' => 10.00, 
+        'Asia/Magadan' => 11.00, 
+        'Pacific/Fiji' => 12.00, 
+        'Pacific/Tongatapu' => 13.00
+        );
+    
     public function __construct(){
         if(!isset($_SESSION)){
             session_start();
         }
-        
+        $this->setTimeZone();
         $this->folders = array(
             ONYX_PATH.'controller/', 
             ONYX_PATH.'includes/', 
             ONYX_PATH.'model/', 
             ONYX_PATH.'service/', 
             ONYX_PATH.'setting/', 
+            ONYX_PATH.'classes/',
             ONYX_PATH.'settings/database/', 
             ONYX_PATH.'settings/database/tables/',
             BASE_PATH.'settings/database/', 
             BASE_PATH.'settings/database/tables/', 
-            BASE_PATH.'settings/', 
+            BASE_PATH.'settings/',
         );
         spl_autoload_register(array($this, 'OnyxAutoLoader'));
     }
@@ -93,6 +132,8 @@ final class OnyxUtilities {
             foreach($this->folders as $dir){
                 if(file_exists($dir.$class.".php")){
                     include_once $dir.$class.".php";   
+                }elseif(file_exists($dir.$class.'Class.php')){
+                    include_once $dir.$class.'Class.php';
                 }
             }
         }
@@ -113,9 +154,10 @@ final class OnyxUtilities {
      */
     function ReadOnyxFile($file, $settings = null){
         $content = false;
-        $filename = ONYX_PATH.'settings/onyx/'.$file.'.onyx';
-        
-        if(file_exists(ONYX_PATH.'settings/onyx/'.$file.'.onyx')){
+        //$filename = ONYX_PATH.'settings/onyx/'.$file.'.onyx';
+        if(is_dir(BASE_PATH."extensions/".$file)){
+
+        }else if(file_exists(ONYX_PATH.'settings/onyx/'.$file.'.onyx')){
             $f = fopen(ONYX_PATH.'settings/onyx/'.$file.'.onyx', 'r');
             $onyx = fread($f, filesize(ONYX_PATH.'settings/onyx/'.$file.'.onyx'));
             
@@ -124,13 +166,24 @@ final class OnyxUtilities {
             $content = json_decode();
         }
         if(empty($content)){
-            return false;
+            return false; 
             //set up to return onyx error object. "no onyx file exists"
         }
         if($settings == null){
             return $content;
         }
         return return_Onyx_file_array($content, $settings);   
+    }
+    function setTimeZone(){
+        $zone = $this->ReadOnyxFile('setup', 'timezone');
+        if(!$zone){
+            $zone = $this->ReadOnyxFile('setup', 'defaultzone');
+        }
+        date_default_timezone_set($zone);   
+    }
+    
+    function WriteOnyxFile($file, $settings = null, $prop, $value){
+        
     }
     /**
      * Method for returning the needed key of an object 
@@ -181,4 +234,3 @@ final class OnyxUtilities {
     }
 }
 $OnyxUtilities = new OnyxUtilities();
-//spl_autoload_register('OnyxUtilities::OnyxAutoLoader');

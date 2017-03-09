@@ -1,0 +1,7 @@
+{
+    "configuration": {
+        "defaultzone": "Europe/Dublin",
+        "timezone": "America/New_York",
+        "debug": false
+    }
+}

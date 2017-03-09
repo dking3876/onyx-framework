@@ -46,9 +46,9 @@ class OnyxUpateCore {
                 echo ' : status <span class="status ok">OK</span><br/>';
             }
             $this->zip->close();
-            $this->status 'ok';
+            $this->status = 'ok';
         } else {
-            $this->status 'Failed to load the update file at '.$this->path_to_upload;
+            $this->status = 'Failed to load the update file at '.$this->path_to_upload;
         }
     }
 }
